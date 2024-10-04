@@ -1,6 +1,6 @@
 <template>
   <div class="row justify-center">
-    <div class="q-pa-md" style="width: 100%;">
+    <div class="q-pa-md full-width">
       <q-input v-model="text" filled type="textarea" counter rows="20" />
     </div>
   </div>
