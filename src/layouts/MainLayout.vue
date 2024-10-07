@@ -14,9 +14,16 @@
       <router-view />
     </q-page-container>
 
-    <q-footer elevated class="bg-grey-8 text-white">
+    <q-footer elevated class="bg-grey-8 text-white q-pt-xs q-pb-xs">
       <q-toolbar>
         <q-toolbar-title>
+          <div class="copyright text-center q-mb-xs">
+            <RouterLink to="/" class="q-mx-xs">ホーム</RouterLink>
+            <RouterLink to="/privacy" class="q-mx-xs">プライバシーポリシー</RouterLink>
+          </div>
+          <div class="copyright text-center">
+            Copyright © <a href="https://it-araiguma.com" target="_blank">ITアライグマ</a> AllRights Reserved.
+          </div>
         </q-toolbar-title>
       </q-toolbar>
     </q-footer>
@@ -29,3 +36,12 @@ defineOptions({
   name: 'MainLayout'
 });
 </script>
+<style scoped>
+.copyright {
+  font-size: 14px;
+}
+
+.copyright>a {
+  color: #fff;
+}
+</style>
