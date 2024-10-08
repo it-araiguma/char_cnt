@@ -1,8 +1,8 @@
 {
   "name": "char-cnt",
   "version": "0.0.1",
-  "description": "文字数をカウントするアプリです。",
-  "productName": "char_cnt",
+  "description": "文字数カウントは余計な機能は一切なし！とにかく文字数だけを正確にカウントしたい方におすすめです。SEO対策にも役立つ、シンプルで使いやすいツールです。",
+  "productName": "文字数カウント",
   "author": "it-araiguma <notnow618@gmail.com>",
   "private": true,
   "scripts": {
