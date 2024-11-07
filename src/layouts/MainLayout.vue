@@ -12,6 +12,12 @@
 
     <q-page-container>
       <router-view />
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-9551028273212184"
+           data-ad-slot="6603589954"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
     </q-page-container>
 
     <q-footer elevated class="bg-grey-8 text-white q-pt-xs q-pb-xs">
