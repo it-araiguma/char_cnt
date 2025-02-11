@@ -2,6 +2,9 @@
   <div class="row justify-center">
     <div class="q-pa-md full-width">
       <q-input v-model="text" filled type="textarea" counter rows="20" />
+      <div class="q-mt-sm text-right">
+        <q-btn color="primary" label="クリア" @click="clearText" />
+      </div>
     </div>
     <div class="row q-px-md">
       <div class="col-12 col-md-12" :class="{ 'q-pb-sm': $q.screen.lt.sm, 'q-pr-sm': $q.screen.gt.md }">
@@ -34,4 +37,8 @@ const processedTextLength = computed(() => {
     .trim()
     .replace(/\s/g, '').length;
 });
+
+const clearText = () => {
+  text.value = '';
+};
 </script>
