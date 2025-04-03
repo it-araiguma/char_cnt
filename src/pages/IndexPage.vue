@@ -2,9 +2,17 @@
   <div class="container q-pa-md">
     <div class="row justify-center">
       <div class="col-12 col-md-8">
+        <div class="language-selector q-mb-md text-right">
+          <q-btn-group flat>
+            <q-btn label="日本語" color="primary" :outline="currentLocale !== 'ja-JP'" @click="changeLocale('ja-JP')" />
+            <q-btn label="English" color="primary" :outline="currentLocale !== 'en-US'" @click="changeLocale('en-US')" />
+            <q-btn label="中文" color="primary" :outline="currentLocale !== 'zh-CN'" @click="changeLocale('zh-CN')" />
+          </q-btn-group>
+        </div>
+        
         <q-card class="text-editor-card q-mb-md">
           <q-card-section>
-            <h5 class="text-h5 q-mt-sm q-mb-md text-primary text-center">テキストカウンター</h5>
+            <h5 class="text-h5 q-mt-sm q-mb-md text-primary text-center">{{ $t('app.title') }}</h5>
             <q-input 
               v-model="text" 
               filled 
@@ -12,14 +20,14 @@
               counter 
               rows="15"
               class="text-area"
-              placeholder="ここにテキストを入力してください..."
+              :placeholder="$t('app.input.placeholder')"
               bg-color="grey-1"
             />
           </q-card-section>
           <q-card-actions align="right" class="q-px-md q-pb-md">
             <q-btn 
               color="negative" 
-              label="クリア" 
+              :label="$t('app.input.clear')" 
               @click="clearText" 
               icon="delete_sweep"
               :disable="!text"
@@ -34,7 +42,7 @@
           <div class="col-12 col-sm-6">
             <q-card class="counter-card" :class="{'pulse-animation': textLength > 0}">
               <q-card-section>
-                <div class="text-subtitle2 text-grey-7">文字数</div>
+                <div class="text-subtitle2 text-grey-7">{{ $t('app.counter.characters') }}</div>
                 <div class="row items-center">
                   <q-icon name="edit" color="primary" size="sm" class="q-mr-sm" />
                   <div class="text-h4 text-weight-bold text-primary">{{ textLength }}</div>
@@ -45,7 +53,7 @@
           <div class="col-12 col-sm-6">
             <q-card class="counter-card" :class="{'pulse-animation': processedTextLength > 0}">
               <q-card-section>
-                <div class="text-subtitle2 text-grey-7">改行・スペースなし</div>
+                <div class="text-subtitle2 text-grey-7">{{ $t('app.counter.noSpaces') }}</div>
                 <div class="row items-center">
                   <q-icon name="edit_note" color="secondary" size="sm" class="q-mr-sm" />
                   <div class="text-h4 text-weight-bold text-secondary">{{ processedTextLength }}</div>
@@ -61,10 +69,15 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 defineOptions({
   name: 'IndexPage'
 });
+
+const { locale } = useI18n();
+const currentLocale = computed(() => locale.value);
+
 const text = ref('');
 const textLength = computed(() => text.value.length);
 const processedTextLength = computed(() => {
@@ -77,6 +90,18 @@ const processedTextLength = computed(() => {
 const clearText = () => {
   text.value = '';
 };
+
+const changeLocale = (newLocale: string) => {
+  locale.value = newLocale;
+  // ローカルストレージに言語設定を保存
+  localStorage.setItem('char-counter-locale', newLocale);
+};
+
+// ページ読み込み時に保存された言語設定を復元
+const savedLocale = localStorage.getItem('char-counter-locale');
+if (savedLocale) {
+  locale.value = savedLocale;
+}
 </script>
 
 <style scoped>
@@ -124,5 +149,9 @@ const clearText = () => {
   100% {
     box-shadow: 0 0 0 0 rgba(0, 149, 255, 0);
   }
+}
+
+.language-selector {
+  margin-bottom: 16px;
 }
 </style>
