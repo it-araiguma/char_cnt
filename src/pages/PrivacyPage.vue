@@ -3,7 +3,7 @@
     <div class="q-gutter-y-md column">
       <div class="q-gutter-md">
         <div class="text-h4">
-          プライバシーポリシー
+          {{ $t('layout.footer.privacy') }}
         </div>
       </div>
       <div class="q-gutter-md">
@@ -38,7 +38,7 @@
         </div>
         <div>
           Google Analyticsによって収集されたデータは、Googleの<a href="https://policies.google.com/privacy"
-            target="_blank">プライバシーポリシー</a>に基づくものとなります。
+            target="_blank">プライバシーポリシー</a>に基づくものとなります。
         </div>
         <div>
           ユーザーはGoogleの提供する<a href="https://support.google.com/analytics/answer/181881" target="_blank">Google
@@ -96,7 +96,46 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useSeoMeta } from 'src/utils/seo';
+import { useRouter, useRoute } from 'vue-router';
+
 defineOptions({
   name: 'PrivacyPage'
+});
+
+// SEOメタタグを設定
+useSeoMeta('privacy');
+
+// i18nを初期化
+const { locale } = useI18n();
+const router = useRouter();
+const route = useRoute();
+
+// ページ読み込み時の処理
+onMounted(() => {
+  // URLのクエリパラメータから言語設定を取得
+  const langParam = route.query.lang as string;
+  
+  if (langParam && ['ja-JP', 'en-US', 'zh-CN'].includes(langParam)) {
+    // クエリパラメータの言語設定を適用
+    locale.value = langParam;
+    localStorage.setItem('char-counter-locale', langParam);
+  } else {
+    // ローカルストレージから言語設定を復元
+    const savedLocale = localStorage.getItem('char-counter-locale');
+    if (savedLocale && ['ja-JP', 'en-US', 'zh-CN'].includes(savedLocale)) {
+      locale.value = savedLocale;
+      
+      // URLのクエリパラメータを更新
+      router.replace({
+        query: { 
+          ...route.query,
+          lang: savedLocale 
+        }
+      });
+    }
+  }
 });
 </script>

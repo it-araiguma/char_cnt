@@ -68,14 +68,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useSeoMeta } from 'src/utils/seo';
+import { useRouter, useRoute } from 'vue-router';
 
 defineOptions({
   name: 'IndexPage'
 });
 
+// SEOメタタグを設定
+useSeoMeta('index');
+
 const { locale } = useI18n();
+const router = useRouter();
+const route = useRoute();
 const currentLocale = computed(() => locale.value);
 
 const text = ref('');
@@ -93,15 +100,44 @@ const clearText = () => {
 
 const changeLocale = (newLocale: string) => {
   locale.value = newLocale;
+  
+  // URLのクエリパラメータを更新
+  router.replace({
+    query: { 
+      ...route.query,
+      lang: newLocale 
+    }
+  });
+  
   // ローカルストレージに言語設定を保存
   localStorage.setItem('char-counter-locale', newLocale);
 };
 
-// ページ読み込み時に保存された言語設定を復元
-const savedLocale = localStorage.getItem('char-counter-locale');
-if (savedLocale) {
-  locale.value = savedLocale;
-}
+// ページ読み込み時の処理
+onMounted(() => {
+  // URLのクエリパラメータから言語設定を取得
+  const langParam = route.query.lang as string;
+  
+  if (langParam && ['ja-JP', 'en-US', 'zh-CN'].includes(langParam)) {
+    // クエリパラメータの言語設定を適用
+    locale.value = langParam;
+    localStorage.setItem('char-counter-locale', langParam);
+  } else {
+    // ローカルストレージから言語設定を復元
+    const savedLocale = localStorage.getItem('char-counter-locale');
+    if (savedLocale && ['ja-JP', 'en-US', 'zh-CN'].includes(savedLocale)) {
+      locale.value = savedLocale;
+      
+      // URLのクエリパラメータを更新
+      router.replace({
+        query: { 
+          ...route.query,
+          lang: savedLocale 
+        }
+      });
+    }
+  }
+});
 </script>
 
 <style scoped>

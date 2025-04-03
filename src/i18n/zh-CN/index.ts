@@ -20,5 +20,17 @@ export default {
       copyright: '版权所有 ',
       allRights: '保留所有权利。'
     }
+  },
+  seo: {
+    index: {
+      title: '字符计数器 - 在线计算文本字符数',
+      description: '一个简单的在线工具，用于计算文本中的字符数。同时显示不包含空格和换行符的字符数。',
+      keywords: '字符计数器,文本计数器,字数统计,在线工具'
+    },
+    privacy: {
+      title: '隐私政策 - 字符计数器',
+      description: '字符计数器应用程序的隐私政策。',
+      keywords: '隐私政策,字符计数器,数据保护'
+    }
   }
 };
