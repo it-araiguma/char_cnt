@@ -9,5 +9,16 @@ export default {
       characters: '字符数',
       noSpaces: '无空格和换行'
     }
+  },
+  layout: {
+    header: {
+      title: '字符计数器'
+    },
+    footer: {
+      home: '首页',
+      privacy: '隐私政策',
+      copyright: '版权所有 ',
+      allRights: '保留所有权利。'
+    }
   }
 };

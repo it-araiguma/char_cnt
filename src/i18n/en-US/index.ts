@@ -12,6 +12,17 @@ export default {
       noSpaces: 'No Spaces & Linebreaks'
     }
   },
+  layout: {
+    header: {
+      title: 'Character Counter'
+    },
+    footer: {
+      home: 'Home',
+      privacy: 'Privacy Policy',
+      copyright: 'Copyright ',
+      allRights: 'All Rights Reserved.'
+    }
+  },
   failed: 'Action failed',
   success: 'Action was successful'
 };
