@@ -2,13 +2,6 @@
   <div class="container q-pa-md">
     <div class="row justify-center">
       <div class="col-12 col-md-8">
-        <div class="language-selector q-mb-md text-right">
-          <q-btn-group flat>
-            <q-btn label="日本語" color="primary" :outline="currentLocale !== 'ja-JP'" @click="changeLocale('ja-JP')" />
-            <q-btn label="English" color="primary" :outline="currentLocale !== 'en-US'" @click="changeLocale('en-US')" />
-            <q-btn label="中文" color="primary" :outline="currentLocale !== 'zh-CN'" @click="changeLocale('zh-CN')" />
-          </q-btn-group>
-        </div>
         
         <q-card class="text-editor-card q-mb-md">
           <q-card-section>
@@ -83,7 +76,6 @@ useSeoMeta('index');
 const { locale } = useI18n();
 const router = useRouter();
 const route = useRoute();
-const currentLocale = computed(() => locale.value);
 
 const text = ref('');
 const textLength = computed(() => text.value.length);
@@ -96,21 +88,6 @@ const processedTextLength = computed(() => {
 
 const clearText = () => {
   text.value = '';
-};
-
-const changeLocale = (newLocale: string) => {
-  locale.value = newLocale;
-  
-  // URLのクエリパラメータを更新
-  router.replace({
-    query: { 
-      ...route.query,
-      lang: newLocale 
-    }
-  });
-  
-  // ローカルストレージに言語設定を保存
-  localStorage.setItem('char-counter-locale', newLocale);
 };
 
 // ページ読み込み時の処理
@@ -185,9 +162,5 @@ onMounted(() => {
   100% {
     box-shadow: 0 0 0 0 rgba(0, 149, 255, 0);
   }
-}
-
-.language-selector {
-  margin-bottom: 16px;
 }
 </style>

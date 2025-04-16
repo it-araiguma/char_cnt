@@ -7,17 +7,27 @@
         <q-toolbar-title>
           {{ $t('layout.header.title') }}
         </q-toolbar-title>
+        <q-space />
+        <!-- 言語切り替えアイコンボタン -->
+        <q-btn-dropdown flat dense dropdown-icon="" class="q-ml-md">
+          <template #label>
+            <q-icon name="language" size="md" />
+          </template>
+          <q-list>
+            <q-item v-for="opt in localeOptions" :key="opt.value" clickable @click="changeLocale(opt.value)">
+              <q-item-section>
+                <span :class="{ 'text-primary': selectedLocale === opt.value }">{{ opt.label }}</span>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
       </q-toolbar>
     </q-header>
 
     <q-page-container>
       <router-view />
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-9551028273212184"
-           data-ad-slot="6603589954"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9551028273212184" data-ad-slot="6603589954"
+        data-ad-format="auto" data-full-width-responsive="true"></ins>
     </q-page-container>
 
     <q-footer elevated class="bg-grey-8 text-white q-pt-xs q-pb-xs">
@@ -28,7 +38,8 @@
             <RouterLink to="/privacy" class="q-mx-xs">{{ $t('layout.footer.privacy') }}</RouterLink>
           </div>
           <div class="copyright text-center">
-            {{ $t('layout.footer.copyright') }}<a href="https://it-araiguma.com" target="_blank">ITアライグマ</a> {{ $t('layout.footer.allRights') }}
+            {{ $t('layout.footer.copyright') }}<a href="https://it-araiguma.com" target="_blank">ITアライグマ</a> {{
+              $t('layout.footer.allRights') }}
           </div>
         </q-toolbar-title>
       </q-toolbar>
@@ -39,13 +50,26 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { ref } from 'vue';
 
 defineOptions({
   name: 'MainLayout'
 });
 
-// i18nを初期化
-useI18n();
+const { locale } = useI18n();
+
+const localeOptions = [
+  { label: '日本語', value: 'ja-JP' },
+  { label: 'English', value: 'en-US' },
+  { label: '中文', value: 'zh-CN' }
+];
+
+const selectedLocale = ref(locale.value);
+
+function changeLocale(val: string) {
+  locale.value = val;
+  selectedLocale.value = val;
+}
 </script>
 <style scoped>
 .copyright {
