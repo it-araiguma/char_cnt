@@ -4,7 +4,7 @@ import { computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
 // サポートされている言語のリスト
-const supportedLocales = ['ja-JP', 'en-US', 'zh-CN'];
+const supportedLocales = ['ja-JP', 'en-US', 'zh-CN', 'fr-FR', 'es-ES'];
 
 /**
  * SEOメタタグを設定するためのユーティリティ関数

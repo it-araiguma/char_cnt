@@ -61,7 +61,9 @@ const { locale } = useI18n();
 const localeOptions = [
   { label: '日本語', value: 'ja-JP' },
   { label: 'English', value: 'en-US' },
-  { label: '中文', value: 'zh-CN' }
+  { label: '中文', value: 'zh-CN' },
+  { label: 'Français', value: 'fr-FR' },
+  { label: 'Español', value: 'es-ES' }
 ];
 
 const selectedLocale = ref(locale.value);
