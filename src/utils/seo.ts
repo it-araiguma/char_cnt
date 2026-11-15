@@ -1,6 +1,6 @@
 import { useI18n } from 'vue-i18n';
 import { useHead } from '@vueuse/head';
-import { computed, watch } from 'vue';
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 // サポートされている言語のリスト
@@ -51,11 +51,14 @@ export function useSeoMeta(pageName: string) {
   };
 
   // メタタグを設定
-  const setMetaTags = () => {
+  useHead(() => {
     const hreflangLinks = generateHreflangLinks();
     const defaultHreflangLink = getDefaultHreflangLink();
 
-    useHead({
+    return {
+      htmlAttrs: {
+        lang: locale.value
+      },
       title: title.value,
       meta: [
         {
@@ -91,15 +94,7 @@ export function useSeoMeta(pageName: string) {
         ...hreflangLinks,
         defaultHreflangLink
       ]
-    });
-  };
-
-  // 初期設定
-  setMetaTags();
-
-  // 言語が変更されたときにメタタグを更新
-  watch(locale, () => {
-    setMetaTags();
+    };
   });
 
   return {
