@@ -15,7 +15,11 @@
               class="text-area"
               :placeholder="$t('app.input.placeholder')"
               bg-color="grey-1"
-            />
+            >
+              <template #counter>
+                {{ textLength }}
+              </template>
+            </q-input>
           </q-card-section>
           <q-card-actions align="right" class="q-px-md q-pb-md">
             <q-btn 
@@ -64,6 +68,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useSeoMeta } from 'src/utils/seo';
+import { countGraphemes, countGraphemesWithoutSpaces } from 'src/utils/charCount';
 import { useRouter, useRoute } from 'vue-router';
 
 defineOptions({
@@ -78,13 +83,8 @@ const router = useRouter();
 const route = useRoute();
 
 const text = ref('');
-const textLength = computed(() => text.value.length);
-const processedTextLength = computed(() => {
-  return text.value
-    .replace(/[\r\n]/g, '')
-    .trim()
-    .replace(/\s/g, '').length;
-});
+const textLength = computed(() => countGraphemes(text.value));
+const processedTextLength = computed(() => countGraphemesWithoutSpaces(text.value));
 
 const clearText = () => {
   text.value = '';
