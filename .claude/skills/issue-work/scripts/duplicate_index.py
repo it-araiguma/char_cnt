@@ -525,7 +525,7 @@ def cmd_body(args: argparse.Namespace) -> int:
             has_error = True
             continue
 
-        body_len = len(body.encode("utf-8"))
+        body_len = len(body_text.encode("utf-8"))
         print(f"=== #{num} ({body_len} bytes) ===")
         print(body_text)
         print(f"=== END #{num} ===\n")
