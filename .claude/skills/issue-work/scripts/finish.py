@@ -290,6 +290,7 @@ def deploy_and_verify(root: str, sha: str | None = None) -> None:
         code, out, err = run(["tar", "-czf", tmp_archive_path, "-C", str(local_pwa_dir), "."])
         if code != 0:
             raise Stop(1, f"アーカイブ作成に失敗しました: {err or out}")
+        os.chmod(tmp_archive_path, 0o644)
 
         code, out, err = run(["scp", "-o", "BatchMode=yes", tmp_archive_path, f"{VPS_HOST}:{remote_archive}"])
         if code != 0:
@@ -297,6 +298,8 @@ def deploy_and_verify(root: str, sha: str | None = None) -> None:
 
         deploy_script = (
             f"set -euo pipefail; "
+            f"chmod 644 {remote_archive} && "
+            f"chown appuser:appuser {remote_archive} && "
             f"su - appuser -c '"
             f"cd {VPS_REPO_DIR} && "
             f"git fetch origin main && "
