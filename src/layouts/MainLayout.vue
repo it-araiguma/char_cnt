@@ -26,7 +26,7 @@
 
     <q-page-container>
       <router-view />
-      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9551028273212184" data-ad-slot="6603589954"
+      <ins ref="adSlot" class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9551028273212184" data-ad-slot="6603589954"
         data-ad-format="auto" data-full-width-responsive="true"></ins>
     </q-page-container>
 
@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { computed } from 'vue';
+import { computed, nextTick, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { isSupportedLocale, saveLocale, type SupportedLocale } from 'src/i18n';
 
@@ -61,6 +61,33 @@ defineOptions({
 const { locale } = useI18n();
 const router = useRouter();
 const route = useRoute();
+const adSlot = ref<HTMLElement | null>(null);
+
+function initAdSense() {
+  if (typeof window === 'undefined') {
+    return;
+  }
+  if (adSlot.value?.getAttribute('data-adsbygoogle-status')) {
+    return;
+  }
+  try {
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
+  } catch (error) {
+    console.warn('AdSense push failed:', error);
+  }
+}
+
+onMounted(() => {
+  void nextTick(() => {
+    if (adSlot.value && adSlot.value.clientWidth > 0) {
+      initAdSense();
+    } else {
+      window.requestAnimationFrame(() => {
+        initAdSense();
+      });
+    }
+  });
+});
 
 const localeOptions: { label: string; value: SupportedLocale }[] = [
   { label: '日本語', value: 'ja-JP' },
