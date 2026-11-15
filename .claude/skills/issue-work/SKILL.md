@@ -165,7 +165,7 @@ python3 "$(git rev-parse --show-toplevel)/.claude/skills/issue-work/scripts/fini
   --pr <PR番号> --issue <番号> [--worktree <START の workdir>]
 ```
 
-- マージ前条件確認 → squashマージとリモートブランチ削除 → worktree除去・ローカルブランチ削除・メインのfast-forward → mainのCI確認（存在する場合）→ **本番VPS（`/home/appuser/public_html/char_cnt`）へのデプロイ（`git pull` & `quasar build -m pwa`）と `https://count.it-araiguma.com/` の HTTP 200 外形確認** → Issueクローズ → Project 6のStatusを「完了」へ更新と読み戻し、を一括実行します。
+- マージ前条件確認 → squashマージとリモートブランチ削除 → worktree除去・ローカルブランチ削除・メインのfast-forward → mainのCI確認（存在する場合）→ **本番VPS（`/home/appuser/public_html/char_cnt`）へのデプロイ（手元 PWA ビルド成果物の転送・flock による排他制御下でのリポジトリ同期とアトミック配置）と `https://count.it-araiguma.com/` の HTTP 200 外形確認** → Issueクローズ → Project 6のStatusを「完了」へ更新と読み戻し、を一括実行します。
 - `--main` で作業した場合は `--worktree` を付けません。ドキュメントやスキルのみの変更で本番再ビルドが不要な場合は `--skip-deploy` を指定できます。
 - 終了コード: 0=完了 / 1=CIまたはデプロイ失敗 / 4=条件不充足 / 5=処理失敗。
 - 完了報告の前に、未起票の課題がないか点検し、あれば起票してから報告します。
