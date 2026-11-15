@@ -32,5 +32,7 @@ export default {
       description: '字符计数器应用程序的隐私政策。',
       keywords: '隐私政策,字符计数器,数据保护'
     }
-  }
+  },
+  failed: '操作失败',
+  success: '操作成功'
 };

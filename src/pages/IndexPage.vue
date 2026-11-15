@@ -69,6 +69,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useSeoMeta } from 'src/utils/seo';
 import { countGraphemes, countGraphemesWithoutSpaces } from 'src/utils/charCount';
+import { syncLocaleWithRoute } from 'src/i18n';
 import { useRouter, useRoute } from 'vue-router';
 
 defineOptions({
@@ -92,28 +93,7 @@ const clearText = () => {
 
 // ページ読み込み時の処理
 onMounted(() => {
-  // URLのクエリパラメータから言語設定を取得
-  const langParam = route.query.lang as string;
-  
-  if (langParam && ['ja-JP', 'en-US', 'zh-CN'].includes(langParam)) {
-    // クエリパラメータの言語設定を適用
-    locale.value = langParam;
-    localStorage.setItem('char-counter-locale', langParam);
-  } else {
-    // ローカルストレージから言語設定を復元
-    const savedLocale = localStorage.getItem('char-counter-locale');
-    if (savedLocale && ['ja-JP', 'en-US', 'zh-CN'].includes(savedLocale)) {
-      locale.value = savedLocale;
-      
-      // URLのクエリパラメータを更新
-      router.replace({
-        query: { 
-          ...route.query,
-          lang: savedLocale 
-        }
-      });
-    }
-  }
+  syncLocaleWithRoute(route, router, locale);
 });
 </script>
 
