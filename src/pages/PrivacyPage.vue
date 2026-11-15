@@ -3,92 +3,103 @@
     <div class="q-gutter-y-md column">
       <div class="q-gutter-md">
         <h1 class="text-h4 q-mb-none">
-          {{ $t('layout.footer.privacy') }}
+          {{ $t('privacyPolicy.title') }}
         </h1>
       </div>
       <div class="q-gutter-md">
         <div>
-          当サイト（以下、「本サイト」）は、ユーザーの個人情報の保護に努め、以下のプライバシーポリシーを定めています。本サイトを利用することで、このプライバシーポリシーに同意したものとみなします。
+          {{ $t('privacyPolicy.intro') }}
         </div>
       </div>
       <div class="q-gutter-md">
-        <div class="text-h5">1. 収集する情報とその目的</div>
-        <div>本サイトでは、以下の目的のためにユーザーの情報を収集します。</div>
-        <div class="text-h6">1.1. 収集する情報とその目的</div>
+        <div class="text-h5">{{ $t('privacyPolicy.section1.title') }}</div>
+        <div>{{ $t('privacyPolicy.section1.intro') }}</div>
+        <div class="text-h6">{{ $t('privacyPolicy.section1.cookieTitle') }}</div>
         <div>
-          本サイトでは、より快適にサービスを利用していただくためにCookie（クッキー）を使用しています。Cookieとは、ユーザーのブラウザに保存される情報の一部であり、特定のユーザーを識別するために使用されることがありますが、個人を特定できる情報は含まれません。
+          {{ $t('privacyPolicy.section1.cookieDesc') }}
         </div>
         <div>
-          Cookieは次の目的で使用されます：
+          {{ $t('privacyPolicy.section1.cookiePurposesTitle') }}
         </div>
         <ul>
-          <li>サイトの利用状況の分析</li>
-          <!-- <li>カスタマイズされた広告の提供</li> -->
-          <li>ユーザー体験の向上</li>
+          <li>{{ $t('privacyPolicy.section1.cookiePurpose1') }}</li>
+          <li>{{ $t('privacyPolicy.section1.cookiePurpose2') }}</li>
         </ul>
         <div>
-          ブラウザの設定により、Cookieの受け入れを拒否することも可能ですが、その場合は本サイトの一部機能が正しく動作しないことがあります。
+          {{ $t('privacyPolicy.section1.cookieReject') }}
         </div>
       </div>
       <div class="q-gutter-md">
-        <div class="text-h6">1.2 Google Analyticsの利用</div>
-        <div>本サイトでは、Google Analyticsを使用してサイトの利用状況を分析しています。
-          Google Analyticsは、Cookieを使用してユーザーの行動を記録し、アクセス解析を行います。
-          これにより、訪問者がどのページを閲覧しているか、どれだけの時間滞在しているかなどの情報を収集し、サイトの改善に役立てています。
-        </div>
+        <div class="text-h6">{{ $t('privacyPolicy.section1.analyticsTitle') }}</div>
         <div>
-          Google Analyticsによって収集されたデータは、Googleの<a href="https://policies.google.com/privacy"
-            target="_blank">プライバシーポリシー</a>に基づくものとなります。
+          {{ $t('privacyPolicy.section1.analyticsDesc1') }}
         </div>
+        <i18n-t keypath="privacyPolicy.section1.analyticsPolicy" tag="div">
+          <template #link>
+            <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
+              {{ $t('privacyPolicy.section1.analyticsPolicyLink') }}
+            </a>
+          </template>
+        </i18n-t>
+        <i18n-t keypath="privacyPolicy.section1.analyticsOptout" tag="div">
+          <template #link>
+            <a href="https://support.google.com/analytics/answer/181881" target="_blank" rel="noopener noreferrer">
+              {{ $t('privacyPolicy.section1.analyticsOptoutLink') }}
+            </a>
+          </template>
+        </i18n-t>
+      </div>
+      <div class="q-gutter-md">
+        <div class="text-h6">{{ $t('privacyPolicy.section1.adsenseTitle') }}</div>
         <div>
-          ユーザーはGoogleの提供する<a href="https://support.google.com/analytics/answer/181881" target="_blank">Google
-            Analyticsオプトアウトアドオン</a>をインストールすることで、Google Analyticsによるデータの収集を無効にすることが可能です。
+          {{ $t('privacyPolicy.section1.adsenseDesc1') }}
+        </div>
+        <i18n-t keypath="privacyPolicy.section1.adsensePolicy" tag="div">
+          <template #link>
+            <a href="https://support.google.com/adspolicy/answer/6008942" target="_blank" rel="noopener noreferrer">
+              {{ $t('privacyPolicy.section1.adsensePolicyLink') }}
+            </a>
+          </template>
+        </i18n-t>
+        <i18n-t keypath="privacyPolicy.section1.adsenseOptout" tag="div">
+          <template #link>
+            <a href="https://myadcenter.google.com/home?sasb=true&ref=ad-settings" target="_blank" rel="noopener noreferrer">
+              {{ $t('privacyPolicy.section1.adsenseOptoutLink') }}
+            </a>
+          </template>
+        </i18n-t>
+      </div>
+      <div class="q-gutter-md">
+        <div class="text-h5">{{ $t('privacyPolicy.section2.title') }}</div>
+        <div>
+          {{ $t('privacyPolicy.section2.desc') }}
         </div>
       </div>
       <div class="q-gutter-md">
-        <div class="text-h6">1.3 Google AdSenseの利用</div>
-        <div>本サイトでは、Google AdSenseによる広告配信を行っています。
-          Google AdSenseは、ユーザーの興味に基づくパーソナライズされた広告を表示するためにCookieを使用します。
-          これにより、ユーザーに関連性の高い広告を提供し、広告の効果を最大化します。
-        </div>
+        <div class="text-h5">{{ $t('privacyPolicy.section3.title') }}</div>
         <div>
-          Google AdSenseに関連するデータの収集と使用に関しては、<a href="https://support.google.com/adspolicy/answer/6008942"
-            target="_blank">Googleの広告ポリシー</a>をご確認ください。
-        </div>
-        <div>
-          ユーザーは、<a href="https://myadcenter.google.com/home?sasb=true&ref=ad-settings"
-            target="_blank">Google広告設定ページ</a>でパーソナライズド広告の表示を管理することができます。
+          {{ $t('privacyPolicy.section3.desc') }}
         </div>
       </div>
       <div class="q-gutter-md">
-        <div class="text-h5">2. 個人情報の管理</div>
+        <div class="text-h5">{{ $t('privacyPolicy.section4.title') }}</div>
         <div>
-          本サイトでは、ユーザーの個人情報を適切かつ安全に管理し、不正アクセス、紛失、改ざん、漏洩から保護するために必要な措置を講じます。
+          {{ $t('privacyPolicy.section4.desc') }}
         </div>
       </div>
       <div class="q-gutter-md">
-        <div class="text-h5">3. 個人情報の第三者提供</div>
+        <div class="text-h5">{{ $t('privacyPolicy.section5.title') }}</div>
         <div>
-          ユーザーの個人情報を、法令に基づく場合を除き、ユーザーの同意を得ることなく第三者に提供することはありません。
+          {{ $t('privacyPolicy.section5.desc') }}
         </div>
       </div>
       <div class="q-gutter-md">
-        <div class="text-h5">4. 個人情報の開示・訂正・削除</div>
+        <div class="text-h5">{{ $t('privacyPolicy.section6.title') }}</div>
         <div>
-          ユーザーから自己の個人情報の開示、訂正、削除の依頼があった場合には、本人確認の上、速やかに対応いたします。
-        </div>
-      </div>
-      <div class="q-gutter-md">
-        <div class="text-h5">6. プライバシーポリシーの変更</div>
-        <div>
-          本プライバシーポリシーの内容は、法令の改正や本サイトの運営方針に応じて変更されることがあります。変更後のプライバシーポリシーは、本サイトに掲載された時点で効力を生じます。
-        </div>
-      </div>
-      <div class="q-gutter-md">
-        <div class="text-h5">7. お問い合わせ先</div>
-        <div>
-          プライバシーポリシーに関するお問い合わせは、以下のフォームでご連絡ください。<br>
-          <a href="https://it-araiguma.com/contact_form/" target="_blank">問い合わせフォーム</a>
+          {{ $t('privacyPolicy.section6.desc') }}<br>
+          <a href="https://it-araiguma.com/contact_form/" target="_blank" rel="noopener noreferrer">
+            {{ $t('privacyPolicy.section6.contactLink') }}
+          </a>
         </div>
       </div>
     </div>
