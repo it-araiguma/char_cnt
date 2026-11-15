@@ -3,10 +3,11 @@
 
     <q-header elevated>
       <q-toolbar>
-        <q-icon name="edit_note" size="md" />
-        <q-toolbar-title>
+        <q-icon name="edit_note" size="md" class="cursor-pointer" @click="router.push('/')" />
+        <q-toolbar-title class="cursor-pointer" @click="router.push('/')">
           {{ $t('layout.header.title') }}
         </q-toolbar-title>
+        <q-btn flat dense no-caps icon="description" :label="$t('layout.footer.genko')" to="/genko" class="q-mr-sm" />
         <q-space />
         <!-- 言語切り替えアイコンボタン -->
         <q-btn-dropdown flat dense dropdown-icon="" class="q-ml-md">
@@ -35,6 +36,7 @@
         <q-toolbar-title>
           <div class="copyright text-center q-mb-xs">
             <RouterLink to="/" class="q-mx-xs">{{ $t('layout.footer.home') }}</RouterLink>
+            <RouterLink to="/genko" class="q-mx-xs">{{ $t('layout.footer.genko') }}</RouterLink>
             <RouterLink to="/privacy" class="q-mx-xs">{{ $t('layout.footer.privacy') }}</RouterLink>
           </div>
           <div class="copyright text-center">

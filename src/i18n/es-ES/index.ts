@@ -8,6 +8,11 @@ export default {
     counter: {
       characters: 'Caracteres',
       noSpaces: 'Sin espacios ni saltos de línea'
+    },
+    tools: {
+      title: 'Contadores especializados',
+      genkoTitle: 'Contador de Genko Yoshi (papel manuscrito)',
+      genkoDesc: 'Calcula hojas de 400 y 200 caracteres con renglones y guía de formato.'
     }
   },
   layout: {
@@ -16,6 +21,7 @@ export default {
     },
     footer: {
       home: 'Inicio',
+      genko: 'Contador de Genko Yoshi',
       privacy: 'Política de privacidad',
       copyright: 'Copyright ',
       allRights: 'Todos los derechos reservados.'
@@ -27,10 +33,74 @@ export default {
       description: 'Una herramienta en línea simple para contar los caracteres de tu texto. También muestra el número de caracteres sin espacios ni saltos de línea.',
       keywords: 'contador de caracteres,contador de texto,herramienta en línea'
     },
+    genko: {
+      title: 'Contador de Genko Yoshi (papel manuscrito 400/200 caracteres) - Contador de caracteres',
+      description: 'Calcula automáticamente el número de hojas y renglones de papel manuscrito japonés (400 y 200 caracteres) teniendo en cuenta saltos de línea.',
+      keywords: 'genko yoshi,papel manuscrito japonés,contador de caracteres,número de hojas'
+    },
     privacy: {
       title: 'Política de privacidad - Contador de caracteres',
       description: 'Política de privacidad de la aplicación Contador de caracteres.',
       keywords: 'política de privacidad,contador de caracteres,protección de datos'
+    }
+  },
+  genko: {
+    title: 'Contador de Papel Manuscrito (Genko Yoshi)',
+    subtitle: 'Cálculo en tiempo real de hojas y líneas para papel de 400 y 200 caracteres',
+    input: {
+      placeholder: 'Escribe o pega tu texto aquí...',
+      clear: 'Borrar',
+      copy: 'Copiar',
+      copied: 'Copiado al portapapeles',
+      sample: 'Insertar ejemplo'
+    },
+    summary: {
+      totalChars: 'Caracteres totales',
+      noSpaces: 'Sin espacios ni saltos',
+      totalLines: 'Líneas totales (Genko Yoshi)',
+      rawLines: 'Párrafos'
+    },
+    cards: {
+      actualTitle: 'Cálculo real en papel (con saltos de línea)',
+      actualDesc: 'Basado en 20 caracteres por línea, reflejando fielmente espacios en blanco y párrafos.',
+      charTitle: 'Cálculo por división de caracteres (estimación)',
+      charDesc: 'División simple de caracteres totales entre cuadrícula (400 o 200).',
+      sheetsUnit: ' hojas',
+      exactBadge: 'Exacto',
+      remainderFormat: '{full} hojas y {remainder} {unit}',
+      linesUnit: 'líneas',
+      charsUnit: 'caracteres',
+      preset400: 'Genko Yoshi de 400 caracteres (20 car. x 20 líneas)',
+      preset200: 'Genko Yoshi de 200 caracteres (20 car. x 10 líneas)',
+      customPreset: 'Cuadrícula personalizada'
+    },
+    custom: {
+      title: 'Personalizar cuadrícula',
+      charsPerLine: 'Caracteres por línea',
+      linesPerPage: 'Líneas por hoja',
+      reset: 'Restablecer'
+    },
+    guide: {
+      title: 'Guía y reglas para escribir en Genko Yoshi',
+      subtitle: 'Normas fundamentales para composiciones y redacción en japonés',
+      rule1Title: '1. Título, nombre y sangría',
+      rule1Body: '・Título: Primera línea dejando 2 o 3 casillas libres al inicio.\n・Nombre: Segunda línea dejando 1 o 2 casillas libres al final.\n・Sangría: Iniciar cada párrafo con 1 casilla de sangría.',
+      rule2Title: '2. Signos de puntuación y prohibición al inicio de línea',
+      rule2Body: '・Puntos y comas nunca deben colocarse al inicio de un renglón.\n・Deben colocarse junto con el último carácter o suspenderse en el margen derecho inferior.',
+      rule3Title: '3. Diálogos y comillas',
+      rule3Body: '・Los diálogos inician en una nueva línea con la comilla de apertura sin sangría.',
+      rule4Title: '4. Números y alfabeto',
+      rule4Body: '・En escritura vertical se prefieren números en kanji.\n・Los números arábigos suelen colocarse de dos en dos por casilla.',
+      tableTitle: 'Tabla de conversión de caracteres a hojas de 400 caracteres',
+      tableHeaderChars: 'Caracteres',
+      tableHeaderSheets: 'Hojas (400 car.)',
+      tableHeaderPurpose: 'Uso habitual',
+      tableRow1: '400 car. (1 hoja): Redacción breve escolar',
+      tableRow2: '800 car. (2 hojas): Ensayo de secundaria',
+      tableRow3: '1.200 car. (3 hojas): Ensayo de ingreso / Reseña estándar (hasta 3 hojas)',
+      tableRow4: '2.000 car. (5 hojas): Informe universitario / Pauta de concurso (hasta 5 hojas)',
+      tableRow5: '4.000 car. (10 hojas): Relato corto / Artículo académico',
+      tableRow6: '8.000 car. (20 hojas): Novela corta / Capítulo de tesis'
     }
   },
   privacyPolicy: {

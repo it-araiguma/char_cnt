@@ -8,6 +8,11 @@ export default {
     counter: {
       characters: 'Caractères',
       noSpaces: 'Sans espaces et retours à la ligne'
+    },
+    tools: {
+      title: 'Compteurs spécialisés',
+      genkoTitle: 'Convertisseur Genko Yoshi (papier manuscrit)',
+      genkoDesc: 'Calculez le nombre de feuilles 400 et 200 caractères avec prise en compte des retours.'
     }
   },
   layout: {
@@ -16,6 +21,7 @@ export default {
     },
     footer: {
       home: 'Accueil',
+      genko: 'Convertisseur Genko Yoshi',
       privacy: 'Politique de confidentialité',
       copyright: 'Copyright ',
       allRights: 'Tous droits réservés.'
@@ -27,10 +33,74 @@ export default {
       description: 'Un outil en ligne simple pour compter les caractères de votre texte. Affiche également le nombre de caractères sans espaces ni retours à la ligne.',
       keywords: 'compteur de caractères,compteur de texte,outil en ligne'
     },
+    genko: {
+      title: 'Convertisseur Genko Yoshi (papier manuscrit 400/200) - Compteur de caractères',
+      description: 'Calcule automatiquement le nombre de pages et de lignes de papier manuscrit japonais (Genko Yoshi 400 et 200 caractères) avec prise en compte des retours à la ligne.',
+      keywords: 'genko yoshi,papier manuscrit,compteur de caractères japonais,nombre de pages'
+    },
     privacy: {
       title: 'Politique de confidentialité - Compteur de caractères',
       description: 'Politique de confidentialité de l\'application Compteur de caractères.',
       keywords: 'politique de confidentialité,compteur de caractères,protection des données'
+    }
+  },
+  genko: {
+    title: 'Convertisseur Papier Manuscrit (Genko Yoshi)',
+    subtitle: 'Calcul en temps réel du nombre de feuilles et de lignes pour 400 et 200 caractères',
+    input: {
+      placeholder: 'Saisissez ou collez votre texte ici...',
+      clear: 'Effacer',
+      copy: 'Copier',
+      copied: 'Copié dans le presse-papiers',
+      sample: 'Insérer un exemple'
+    },
+    summary: {
+      totalChars: 'Total caractères',
+      noSpaces: 'Sans espaces ni retours',
+      totalLines: 'Total lignes (Genko Yoshi)',
+      rawLines: 'Paragraphes'
+    },
+    cards: {
+      actualTitle: 'Calcul réel (retours à la ligne inclus)',
+      actualDesc: 'Sur la base de 20 caractères par ligne, reflétant fidèlement les blancs et paragraphes.',
+      charTitle: 'Calcul par division de caractères (estimation)',
+      charDesc: 'Division pure du nombre total de caractères par la taille de la grille (400 ou 200).',
+      sheetsUnit: ' feuilles',
+      exactBadge: 'Sans reste',
+      remainderFormat: '{full} feuilles et {remainder} {unit}',
+      linesUnit: 'lignes',
+      charsUnit: 'caractères',
+      preset400: 'Genko Yoshi 400 caractères (20 car. x 20 lignes)',
+      preset200: 'Genko Yoshi 200 caractères (20 car. x 10 lignes)',
+      customPreset: 'Grille personnalisée'
+    },
+    custom: {
+      title: 'Personnaliser la grille',
+      charsPerLine: 'Caractères par ligne',
+      linesPerPage: 'Lignes par feuille',
+      reset: 'Réinitialiser'
+    },
+    guide: {
+      title: 'Guide d\'écriture et règles du Genko Yoshi',
+      subtitle: 'Règles fondamentales pour les rédactions et compositions japonaises',
+      rule1Title: '1. Titre, nom et alinéa',
+      rule1Body: '・Titre : Première ligne en laissant 2 ou 3 cases vides au début.\n・Nom : Deuxième ligne en laissant 1 ou 2 cases vides à la fin.\n・Alinéa : Débuter chaque paragraphe par une indentation d\'une case.',
+      rule2Title: '2. Ponctuation et interdits de début de ligne',
+      rule2Body: '・Les points et virgules ne doivent jamais être placés au début d\'une ligne.\n・Placez-les dans la dernière case avec le caractère ou suspendez-les dans la marge extérieure.',
+      rule3Title: '3. Dialogues et guillemets',
+      rule3Body: '・Les dialogues commencent sur une nouvelle ligne avec le guillemet ouvrant sans indentation.',
+      rule4Title: '4. Chiffres et alphabet',
+      rule4Body: '・En écriture verticale, privilégiez les chiffres en kanji.\n・Les chiffres arabes s\'écrivent généralement par deux dans une case.',
+      tableTitle: 'Tableau d\'équivalence caractères / feuilles de 400 caractères',
+      tableHeaderChars: 'Caractères',
+      tableHeaderSheets: 'Feuilles (400 car.)',
+      tableHeaderPurpose: 'Usage type',
+      tableRow1: '400 car. (1 feuille) : Courte rédaction',
+      tableRow2: '800 car. (2 feuilles) : Rédaction de lycée',
+      tableRow3: '1 200 car. (3 feuilles) : Concours / Fiche de lecture',
+      tableRow4: '2 000 car. (5 feuilles) : Rapport universitaire',
+      tableRow5: '4 000 car. (10 feuilles) : Nouvelle courte',
+      tableRow6: '8 000 car. (20 feuilles) : Roman court / Chapitre'
     }
   },
   privacyPolicy: {
