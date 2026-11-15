@@ -8,6 +8,11 @@ export default {
     counter: {
       characters: '字符数',
       noSpaces: '无空格和换行'
+    },
+    tools: {
+      title: '特定用途计数器',
+      genkoTitle: '原稿纸字数换算器',
+      genkoDesc: '自动计算400字与200字日文原稿纸页数与行数，包含换行换算及书写规范。'
     }
   },
   layout: {
@@ -16,6 +21,7 @@ export default {
     },
     footer: {
       home: '首页',
+      genko: '原稿纸字数换算',
       privacy: '隐私政策',
       copyright: '版权所有 ',
       allRights: '保留所有权利。'
@@ -27,10 +33,74 @@ export default {
       description: '一个简单的在线工具，用于计算文本中的字符数。同时显示不包含空格和换行符的字符数。',
       keywords: '字符计数器,文本计数器,字数统计,在线工具'
     },
+    genko: {
+      title: '日文原稿纸换算计数器（400字・200字）页数行数自动计算 - 字符计数器',
+      description: '实时自动计算文本换算为400字与200字原稿纸的页数与行数，同时显示考虑换行与空行的实际纸张数及字数估算。',
+      keywords: '原稿纸 换算,原稿纸 字数,400字原稿纸 几张,作文 原稿纸 页数,字符计数器'
+    },
     privacy: {
       title: '隐私政策 - 字符计数器',
       description: '字符计数器应用程序的隐私政策。',
       keywords: '隐私政策,字符计数器,数据保护'
+    }
+  },
+  genko: {
+    title: '原稿纸换算计数器',
+    subtitle: '实时自动计算400字与200字原稿纸的页数及行数',
+    input: {
+      placeholder: '请在此输入或粘贴文本...',
+      clear: '清空',
+      copy: '复制',
+      copied: '已复制到剪贴板',
+      sample: '填入示例'
+    },
+    summary: {
+      totalChars: '总字符数',
+      noSpaces: '不含空格换行',
+      totalLines: '实际总行数（原稿纸）',
+      rawLines: '段落数（换行数）'
+    },
+    cards: {
+      actualTitle: '实际纸张换算（考虑换行与空白）',
+      actualDesc: '按每行20字计算，准确反映段落换行与空行占用的纸张数。',
+      charTitle: '纯字数换算（估算）',
+      charDesc: '以总字数除以单页格子数（400字/200字）得出的理论估算值。',
+      sheetsUnit: '页',
+      exactBadge: '整页无余',
+      remainderFormat: '{full}页 又 {remainder}{unit}',
+      linesUnit: '行',
+      charsUnit: '字',
+      preset400: '400字原稿纸（20字×20行）',
+      preset200: '200字原稿纸（20字×10行）',
+      customPreset: '自定义网格设置'
+    },
+    custom: {
+      title: '自定义原稿纸规格',
+      charsPerLine: '每行字数',
+      linesPerPage: '每页行数',
+      reset: '恢复默认'
+    },
+    guide: {
+      title: '日文原稿纸书写规则与指南',
+      subtitle: '作文、读后感、小说创作的基本格式规范',
+      rule1Title: '1. 标题、姓名与段落缩进',
+      rule1Body: '・标题：写在第一行，上方空2~3格。\n・姓名：写在第二行，下方空1~2格，姓与名之间空1格。\n・段落开头：段落首行必须缩进1格。',
+      rule2Title: '2. 标点符号与行头禁则',
+      rule2Body: '・句号与逗号不可放在行首第一格。\n・可与上一行末尾字符同挤一格，或悬挂在格子外侧右下方。',
+      rule3Title: '3. 对话与引号规范',
+      rule3Body: '・对话一般另起一行书写。开头的引号顶格书写，不缩进。',
+      rule4Title: '4. 数字与字母的书写方式',
+      rule4Body: '・竖排文本中原则上使用汉字数字。\n・若使用阿拉伯数字，通常一格内写入两位半角数字。',
+      tableTitle: '字数与400字原稿纸换算参考表',
+      tableHeaderChars: '字数标准',
+      tableHeaderSheets: '400字纸张数',
+      tableHeaderPurpose: '主要用途',
+      tableRow1: '400字（1页）：小学生短篇作文、阅读简记',
+      tableRow2: '800字（2页）：中考作文、常规读后感',
+      tableRow3: '1,200字（3页）：高考小论文、标准读后感竞赛（3页以内）',
+      tableRow4: '2,000字（5页）：大学课程报告、高中生竞赛规定（5页以内）',
+      tableRow5: '4,000字（10页）：短篇小说、学术论文初稿',
+      tableRow6: '8,000字（20页）：中篇小说、毕业论文准备章节'
     }
   },
   privacyPolicy: {

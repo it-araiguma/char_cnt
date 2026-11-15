@@ -7,6 +7,11 @@ const routes: RouteRecordRaw[] = [
     children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
   },
   {
+    path: '/genko',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [{ path: '', component: () => import('pages/features/GenkoCountPage.vue') }],
+  },
+  {
     path: '/privacy',
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/PrivacyPage.vue') }],

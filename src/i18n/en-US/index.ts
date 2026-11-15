@@ -10,6 +10,11 @@ export default {
     counter: {
       characters: 'Characters',
       noSpaces: 'No Spaces & Linebreaks'
+    },
+    tools: {
+      title: 'Specialized Counters',
+      genkoTitle: 'Manuscript Paper (Genko Yoshi) Counter',
+      genkoDesc: 'Calculate 400 and 200-character manuscript paper sheets with line breaks and formatting guide.'
     }
   },
   layout: {
@@ -18,6 +23,7 @@ export default {
     },
     footer: {
       home: 'Home',
+      genko: 'Manuscript Paper Counter',
       privacy: 'Privacy Policy',
       copyright: 'Copyright ',
       allRights: 'All Rights Reserved.'
@@ -29,10 +35,74 @@ export default {
       description: 'A simple online tool to count characters in your text. Also shows character count without spaces and line breaks.',
       keywords: 'character counter,text counter,word count,online tool'
     },
+    genko: {
+      title: 'Genko Yoshi Manuscript Paper Counter (400 / 200 chars) - Character Counter',
+      description: 'Automatically calculates the number of Japanese manuscript paper sheets (400 and 200 characters). Real-time sheet and line calculation considering line breaks.',
+      keywords: 'manuscript paper,genko yoshi counter,japanese manuscript sheet,character count'
+    },
     privacy: {
       title: 'Privacy Policy - Character Counter',
       description: 'Privacy policy for the Character Counter application.',
       keywords: 'privacy policy,character counter,data protection'
+    }
+  },
+  genko: {
+    title: 'Japanese Manuscript Paper (Genko Yoshi) Counter',
+    subtitle: 'Real-time calculation of sheet and line counts for 400 and 200-character paper',
+    input: {
+      placeholder: 'Type or paste your text here...',
+      clear: 'Clear',
+      copy: 'Copy',
+      copied: 'Copied to clipboard',
+      sample: 'Insert Sample'
+    },
+    summary: {
+      totalChars: 'Total Characters',
+      noSpaces: 'Without Spaces & Linebreaks',
+      totalLines: 'Total Lines (Paper basis)',
+      rawLines: 'Paragraphs'
+    },
+    cards: {
+      actualTitle: 'Actual Paper Calculation (Linebreaks considered)',
+      actualDesc: 'Based on 20 characters per line. Accurately reflects blank lines and margin breaks.',
+      charTitle: 'Character Division (Estimate)',
+      charDesc: 'Simple theoretical calculation dividing total characters by sheet grid size (400 or 200).',
+      sheetsUnit: ' sheets',
+      exactBadge: 'Exact',
+      remainderFormat: '{full} sheets and {remainder} {unit}',
+      linesUnit: 'lines',
+      charsUnit: 'chars',
+      preset400: '400-char Genko Yoshi (20 chars x 20 lines)',
+      preset200: '200-char Genko Yoshi (20 chars x 10 lines)',
+      customPreset: 'Custom Grid'
+    },
+    custom: {
+      title: 'Customize Paper Grid',
+      charsPerLine: 'Characters per line',
+      linesPerPage: 'Lines per sheet',
+      reset: 'Reset to default'
+    },
+    guide: {
+      title: 'Manuscript Paper Rules & Writing Guide',
+      subtitle: 'Essential guidelines for Japanese essays, novel writing, and book reports',
+      rule1Title: '1. Title, Name, and Paragraph Indentation',
+      rule1Body: '・Title: Write on the first line, leaving 2-3 empty squares at the top.\n・Name: Write on the second line, leaving 1-2 empty squares at the bottom.\n・Paragraphs: Start each paragraph with a 1-square indentation.',
+      rule2Title: '2. Punctuation Marks and Line-head Prohibition',
+      rule2Body: '・Periods and commas should never appear at the top of a line.\n・Place them in the last square alongside the last character, or hang them in the outer margin.',
+      rule3Title: '3. Dialogue and Quotation Marks',
+      rule3Body: '・Start dialogues on a new line. The opening quotation mark occupies the top square without indentation.',
+      rule4Title: '4. Numbers and Alphabetical Characters',
+      rule4Body: '・Kanji numerals are generally preferred for vertical writing.\n・Arabic numerals can be written two digits per square.',
+      tableTitle: 'Character Count to 400-Character Sheets Conversion Table',
+      tableHeaderChars: 'Characters',
+      tableHeaderSheets: '400-char Sheets',
+      tableHeaderPurpose: 'Standard Purpose',
+      tableRow1: '400 chars (1 sheet): Short essay / Elementary report',
+      tableRow2: '800 chars (2 sheets): High school essay / Short book report',
+      tableRow3: '1,200 chars (3 sheets): College entrance essay / Contest guideline (within 3 sheets)',
+      tableRow4: '2,000 chars (5 sheets): University report / High school contest guideline (within 5 sheets)',
+      tableRow5: '4,000 chars (10 sheets): Short story / Academic paper',
+      tableRow6: '8,000 chars (20 sheets): Novelette / Thesis chapter'
     }
   },
   privacyPolicy: {

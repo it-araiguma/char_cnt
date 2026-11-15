@@ -59,6 +59,31 @@
             </q-card>
           </div>
         </div>
+
+        <!-- 用途別機能への導線 -->
+        <q-card class="q-mt-lg feature-nav-card" flat bordered>
+          <q-card-section>
+            <div class="text-subtitle2 text-weight-bold text-grey-8 q-mb-xs">
+              {{ $t('app.tools.title') }}
+            </div>
+            <q-item clickable v-ripple to="/genko" class="rounded-borders feature-item q-pa-sm">
+              <q-item-section avatar>
+                <q-avatar color="primary" text-color="white" icon="menu_book" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label class="text-weight-bold text-primary text-subtitle1">
+                  {{ $t('app.tools.genkoTitle') }}
+                </q-item-label>
+                <q-item-label caption class="text-grey-7">
+                  {{ $t('app.tools.genkoDesc') }}
+                </q-item-label>
+              </q-item-section>
+              <q-item-section side>
+                <q-icon name="chevron_right" color="primary" />
+              </q-item-section>
+            </q-item>
+          </q-card-section>
+        </q-card>
       </div>
     </div>
   </div>
@@ -142,5 +167,21 @@ onMounted(() => {
   100% {
     box-shadow: 0 0 0 0 rgba(0, 149, 255, 0);
   }
+}
+
+.feature-nav-card {
+  border-radius: 12px;
+  background-color: #fafafa;
+}
+
+.feature-item {
+  transition: all 0.2s ease;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+}
+
+.feature-item:hover {
+  background-color: #f0f7ff;
+  border-color: #90caf9;
 }
 </style>
