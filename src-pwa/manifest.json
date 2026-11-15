@@ -1,4 +1,10 @@
 {
+  "name": "文字数カウント",
+  "short_name": "文字数カウント",
+  "description": "文字数カウントは余計な機能は一切なし！とにかく文字数だけを正確にカウントしたい方におすすめです。SEO対策にも役立つ、シンプルで使いやすいツールです。",
+  "start_url": "/",
+  "display": "standalone",
+  "lang": "ja",
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#027be3",
