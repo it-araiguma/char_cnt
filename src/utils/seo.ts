@@ -52,6 +52,8 @@ export function useSeoMeta(pageName: string) {
   useHead(() => {
     const hreflangLinks = generateHreflangLinks();
     const defaultHreflangLink = getDefaultHreflangLink();
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://count.it-araiguma.com';
+    const ogImage = `${baseUrl}/icons/icon-512x512.png`;
 
     return {
       htmlAttrs: {
@@ -76,8 +78,28 @@ export function useSeoMeta(pageName: string) {
           content: description.value
         },
         {
+          property: 'og:type',
+          content: pageName === 'index' ? 'website' : 'article'
+        },
+        {
+          property: 'og:url',
+          content: currentUrl.value
+        },
+        {
+          property: 'og:image',
+          content: ogImage
+        },
+        {
+          property: 'og:site_name',
+          content: t('layout.header.title')
+        },
+        {
           property: 'og:locale',
           content: locale.value
+        },
+        {
+          name: 'twitter:card',
+          content: 'summary'
         },
         {
           name: 'twitter:title',
@@ -86,9 +108,17 @@ export function useSeoMeta(pageName: string) {
         {
           name: 'twitter:description',
           content: description.value
+        },
+        {
+          name: 'twitter:image',
+          content: ogImage
         }
       ],
       link: [
+        {
+          rel: 'canonical',
+          href: currentUrl.value
+        },
         ...hreflangLinks,
         defaultHreflangLink
       ]
