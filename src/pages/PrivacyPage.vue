@@ -2,9 +2,9 @@
   <div class="q-pa-md">
     <div class="q-gutter-y-md column">
       <div class="q-gutter-md">
-        <div class="text-h4">
+        <h1 class="text-h4 q-mb-none">
           {{ $t('layout.footer.privacy') }}
-        </div>
+        </h1>
       </div>
       <div class="q-gutter-md">
         <div>

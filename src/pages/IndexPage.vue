@@ -5,7 +5,7 @@
         
         <q-card class="text-editor-card q-mb-md">
           <q-card-section>
-            <h5 class="text-h5 q-mt-sm q-mb-md text-primary text-center">{{ $t('app.title') }}</h5>
+            <h1 class="text-h5 q-mt-sm q-mb-md text-primary text-center">{{ $t('app.title') }}</h1>
             <q-input 
               v-model="text" 
               filled 
