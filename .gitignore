@@ -35,3 +35,10 @@ yarn-error.log*
 
 # local .env files
 .env.local*
+
+# Agent worktrees & local cache
+.claude/worktrees/
+.claude/settings.local.json
+__pycache__/
+*.pyc
+
