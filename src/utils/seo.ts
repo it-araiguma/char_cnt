@@ -2,9 +2,7 @@ import { useI18n } from 'vue-i18n';
 import { useHead } from '@vueuse/head';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-
-// サポートされている言語のリスト
-const supportedLocales = ['ja-JP', 'en-US', 'zh-CN', 'fr-FR', 'es-ES'];
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from 'src/i18n';
 
 /**
  * SEOメタタグを設定するためのユーティリティ関数
@@ -32,7 +30,7 @@ export function useSeoMeta(pageName: string) {
 
   // hreflangリンクを生成
   const generateHreflangLinks = () => {
-    return supportedLocales.map(lang => {
+    return SUPPORTED_LOCALES.map(lang => {
       return {
         rel: 'alternate',
         hreflang: lang.toLowerCase(),
@@ -46,7 +44,7 @@ export function useSeoMeta(pageName: string) {
     return {
       rel: 'alternate',
       hreflang: 'x-default',
-      href: `${currentUrl.value}?lang=en-US`
+      href: `${currentUrl.value}?lang=${DEFAULT_LOCALE}`
     };
   };
 

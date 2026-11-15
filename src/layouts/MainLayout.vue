@@ -50,15 +50,19 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { ref } from 'vue';
+import { computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { isSupportedLocale, saveLocale, type SupportedLocale } from 'src/i18n';
 
 defineOptions({
   name: 'MainLayout'
 });
 
 const { locale } = useI18n();
+const router = useRouter();
+const route = useRoute();
 
-const localeOptions = [
+const localeOptions: { label: string; value: SupportedLocale }[] = [
   { label: '日本語', value: 'ja-JP' },
   { label: 'English', value: 'en-US' },
   { label: '中文', value: 'zh-CN' },
@@ -66,11 +70,20 @@ const localeOptions = [
   { label: 'Español', value: 'es-ES' }
 ];
 
-const selectedLocale = ref(locale.value);
+const selectedLocale = computed(() => locale.value);
 
-function changeLocale(val: string) {
+function changeLocale(val: SupportedLocale) {
+  if (!isSupportedLocale(val)) {
+    return;
+  }
   locale.value = val;
-  selectedLocale.value = val;
+  saveLocale(val);
+  void router.replace({
+    query: {
+      ...route.query,
+      lang: val
+    }
+  });
 }
 </script>
 <style scoped>
