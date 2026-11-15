@@ -12,7 +12,8 @@
   2. merge    : squashマージしてリモートブランチを削除する（マージ済みならスキップ）
   3. cleanup  : worktree除去・リモート/ローカルの作業ブランチ削除・メインのfast-forward
   4. main-ci  : GitHub Actions ワークフローが存在する場合のみ、マージコミットに対するpush CIを待つ
-  5. deploy   : 本番VPS（/home/appuser/public_html/char_cnt）で git pull & quasar build -m pwa を実行し、
+  5. deploy   : ローカルで PWA ビルドを実行し、成果物を VPS（/home/appuser/public_html/char_cnt）へ転送。
+                VPS 側では flock 排他制御下で git リポジトリ同期と dist/pwa のアトミック置換を行い、
                 https://count.it-araiguma.com/ の HTTP 200 外形確認を行う（--skip-deploy 指定時はスキップ）
   6. issue    : Issueがcloseされていなければcloseする
   7. status   : Project 6のStatusを「完了」にして読み戻す
@@ -33,9 +34,11 @@ import argparse
 import glob
 import json
 import os
+import shlex
 import shutil
 import subprocess
 import sys
+import tempfile
 import time
 import urllib.request
 from pathlib import Path
@@ -262,22 +265,61 @@ def wait_main_ci(root: str, sha: str, max_wait: int, interval: int) -> None:
         time.sleep(interval)
 
 
-def deploy_and_verify() -> None:
-    say("deploy", f"VPS ({VPS_HOST}:{VPS_REPO_DIR}) へ main 反映 & PWA ビルドを実行中...")
-    remote_cmd = (
-        f'su - appuser -c "'
-        f'cd {VPS_REPO_DIR} && '
-        f'git fetch origin main && '
-        f'git checkout main && '
-        f'git reset --hard origin/main && '
-        f'npm install --no-audit --no-fund < /dev/null && '
-        f'quasar build -m pwa < /dev/null'
-        f'"'
-    )
-    code, out, err = run(["ssh", "-o", "BatchMode=yes", VPS_HOST, remote_cmd], timeout=600)
+def deploy_and_verify(root: str, sha: str | None = None) -> None:
+    say("deploy", "手元環境で PWA ビルドを実行中...")
+    code, out, err = run(["npx", "--yes", "quasar", "build", "-m", "pwa"], cwd=root, timeout=300)
     if code != 0:
-        raise Stop(1, f"VPS でのデプロイ・ビルドに失敗しました: {err or out}")
-    say("deploy", "VPS での PWA ビルドが完了しました")
+        raise Stop(1, f"手元環境での PWA ビルドに失敗しました: {err or out}")
+    say("deploy", "手元環境での PWA ビルドが完了しました")
+
+    local_pwa_dir = Path(root) / "dist" / "pwa"
+    if not (local_pwa_dir / "index.html").is_file():
+        raise Stop(1, f"ビルド成果物が見つかりません: {local_pwa_dir / 'index.html'}")
+
+    if sha:
+        (local_pwa_dir / ".deployed_commit").write_text(sha.strip() + "\n", encoding="utf-8")
+
+    say("deploy", f"ビルド成果物を VPS ({VPS_HOST}:{VPS_REPO_DIR}) へ転送・配置中...")
+    with tempfile.NamedTemporaryFile(suffix=".tar.gz", delete=False) as tmp_archive:
+        tmp_archive_path = tmp_archive.name
+
+    remote_archive = f"/tmp/char_cnt_pwa_{int(time.time())}_{os.getpid()}.tar.gz"
+    lock_file = "/tmp/char_cnt_deploy.lock"
+
+    try:
+        code, out, err = run(["tar", "-czf", tmp_archive_path, "-C", str(local_pwa_dir), "."])
+        if code != 0:
+            raise Stop(1, f"アーカイブ作成に失敗しました: {err or out}")
+
+        code, out, err = run(["scp", "-o", "BatchMode=yes", tmp_archive_path, f"{VPS_HOST}:{remote_archive}"])
+        if code != 0:
+            raise Stop(1, f"アーカイブの VPS 転送に失敗しました: {err or out}")
+
+        deploy_script = (
+            f"set -euo pipefail; "
+            f"su - appuser -c '"
+            f"cd {VPS_REPO_DIR} && "
+            f"git fetch origin main && "
+            f"git checkout main && "
+            f"git reset --hard origin/main && "
+            f"mkdir -p dist/pwa_new && "
+            f"tar -xzf {remote_archive} -C dist/pwa_new && "
+            f"rm -rf dist/pwa_old && "
+            f"( [ -d dist/pwa ] && mv dist/pwa dist/pwa_old || true ) && "
+            f"mv dist/pwa_new dist/pwa && "
+            f"rm -rf dist/pwa_old"
+            f"' && "
+            f"rm -f {remote_archive}"
+        )
+        remote_cmd = f"flock -x -w 300 {lock_file} bash -c {shlex.quote(deploy_script)}"
+        code, out, err = run(["ssh", "-o", "BatchMode=yes", VPS_HOST, remote_cmd], timeout=300)
+        if code != 0:
+            run(["ssh", "-o", "BatchMode=yes", VPS_HOST, f"rm -f {remote_archive}"])
+            raise Stop(1, f"VPS での成果物展開・デプロイに失敗しました: {err or out}")
+        say("deploy", "VPS への成果物配置とリポジトリ同期が完了しました")
+    finally:
+        if os.path.exists(tmp_archive_path):
+            os.remove(tmp_archive_path)
 
     req = urllib.request.Request(PROD_URL, headers={"User-Agent": "char_cnt-finish-check/1.0"})
     try:
@@ -336,7 +378,7 @@ def finish(args: argparse.Namespace) -> int:
     if args.skip_deploy:
         say("deploy", "--skip-deploy 指定のため本番デプロイをスキップします")
     else:
-        deploy_and_verify()
+        deploy_and_verify(root, sha)
     close_issue(args.issue, args.pr)
     set_done(args.issue)
     print(f"FINISH pr={args.pr} issue={args.issue} merge={(sha or '')[:7]} status={DONE}", flush=True)

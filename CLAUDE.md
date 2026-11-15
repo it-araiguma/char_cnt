@@ -26,7 +26,7 @@
   - リポジトリパス: `/home/appuser/public_html/char_cnt`（実行ユーザー: `appuser`）
   - ドキュメントルート: `/home/appuser/public_html/char_cnt/dist/pwa`
   - Apache 設定: `/etc/httpd/conf.d/char_cnt.conf`
-  - ビルドコマンド: `quasar build -m pwa`（または `npx --yes quasar build -m pwa`）
+  - デプロイ方式: 手元で `quasar build -m pwa` を実行した成果物を VPS へ転送し、VPS 側は `flock` 排他制御下で git リポジトリ同期とアトミック配置を行う（メモリ 1GB の VPS 上ではビルドを実行しない）
 
 ### Issue対応フロー
 Issue の選定から着手・実装・検証・PR・マージ・本番デプロイ・完了更新までを一気通貫で行う際は、`issue-work` Skill（`.claude/skills/issue-work/SKILL.md`）を使用する。
@@ -34,7 +34,7 @@ Issue の選定から着手・実装・検証・PR・マージ・本番デプロ
 2. まず作業 Issue の Status を「対応中」へ更新する（ファイル調査や方針検討を先行させず、何よりもまず真っ先に `start.py` で専用 worktree を作成し Status を「対応中」にする）
 3. 作成された worktree 内で Issue 本文・関連ファイルを確認し、方針整理・実装・検証（`npm run lint`、`npx --yes vue-tsc --noEmit`、`npx --yes quasar build -m pwa`）
 4. PR 作成（`gh pr create`）とチェック確認（`wait_pr.py`）
-5. `finish.py` で squash マージ、worktree・ローカルブランチ削除、本番 VPS デプロイ（`git pull` & `quasar build -m pwa`）と `https://count.it-araiguma.com/` 外形確認、Issue クローズ、Project 6 の Status を「完了」へ更新
+5. `finish.py` で squash マージ、worktree・ローカルブランチ削除、本番 VPS デプロイ（手元 PWA ビルド成果物の転送・flock 排他制御による本番反映）と `https://count.it-araiguma.com/` 外形確認、Issue クローズ、Project 6 の Status を「完了」へ更新
 
 ### 完了報告
 - ローカルでのコミットやテスト成功、PR 作成だけで作業を終えず、必ず PR マージ、本番デプロイ完了と外形確認、Project Status の「完了」更新まで自律的に完遂する。
