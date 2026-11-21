@@ -86,7 +86,8 @@ export default {
       title: '自定义原稿纸规格',
       charsPerLine: '每行字数',
       linesPerPage: '每页行数',
-      reset: '恢复默认'
+      reset: '恢复默认',
+      invalidRange: '请输入 {min} 到 {max} 之间的整数'
     },
     guide: {
       title: '日文原稿纸书写规则与指南',

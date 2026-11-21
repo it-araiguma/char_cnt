@@ -86,7 +86,8 @@ export default {
       title: 'Personalizar cuadrícula',
       charsPerLine: 'Caracteres por línea',
       linesPerPage: 'Líneas por hoja',
-      reset: 'Restablecer'
+      reset: 'Restablecer',
+      invalidRange: 'Introduce un número entero entre {min} y {max}'
     },
     guide: {
       title: 'Guía y reglas para escribir en Genko Yoshi',

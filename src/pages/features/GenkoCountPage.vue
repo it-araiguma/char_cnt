@@ -273,23 +273,29 @@
               <div class="row q-col-gutter-md items-center">
                 <div class="col-12 col-sm-5">
                   <q-input
-                    v-model.number="customSetting.charsPerLine"
+                    v-model.number="customInput.charsPerLine"
                     type="number"
-                    min="1"
-                    max="100"
+                    :min="GENKO_MIN_GRID"
+                    :max="GENKO_MAX_GRID"
+                    step="1"
                     dense
                     outlined
+                    hide-bottom-space
+                    :rules="[validateGridValue]"
                     :label="$t('genko.custom.charsPerLine')"
                   />
                 </div>
                 <div class="col-12 col-sm-5">
                   <q-input
-                    v-model.number="customSetting.linesPerPage"
+                    v-model.number="customInput.linesPerPage"
                     type="number"
-                    min="1"
-                    max="100"
+                    :min="GENKO_MIN_GRID"
+                    :max="GENKO_MAX_GRID"
+                    step="1"
                     dense
                     outlined
+                    hide-bottom-space
+                    :rules="[validateGridValue]"
                     :label="$t('genko.custom.linesPerPage')"
                   />
                 </div>
@@ -479,13 +485,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, reactive, onMounted } from 'vue';
+import { ref, computed, reactive, watch, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter, useRoute } from 'vue-router';
 import { useQuasar } from 'quasar';
 import { useSeoMeta } from 'src/utils/seo';
 import { syncLocaleWithRoute } from 'src/i18n';
-import { analyzeGenko, type GenkoSetting } from 'src/utils/genkoCount';
+import {
+  analyzeGenko,
+  GENKO_MIN_GRID,
+  GENKO_MAX_GRID,
+  GENKO_DEFAULT_CHARS_PER_LINE,
+  GENKO_DEFAULT_LINES_PER_PAGE,
+  isValidGenkoGridValue,
+  type GenkoSetting
+} from 'src/utils/genkoCount';
 
 defineOptions({
   name: 'GenkoCountPage'
@@ -501,14 +515,50 @@ const $q = useQuasar();
 
 const text = ref('');
 
-const customSetting = reactive<GenkoSetting>({
-  charsPerLine: 20,
-  linesPerPage: 20
+const customInput = reactive<{ charsPerLine: number | string; linesPerPage: number | string }>({
+  charsPerLine: GENKO_DEFAULT_CHARS_PER_LINE,
+  linesPerPage: GENKO_DEFAULT_LINES_PER_PAGE
 });
 
+// 不正値入力中は直前の有効値（初期値 20）を維持して計算が破綻しないようにする
+const customSetting = reactive<GenkoSetting>({
+  charsPerLine: GENKO_DEFAULT_CHARS_PER_LINE,
+  linesPerPage: GENKO_DEFAULT_LINES_PER_PAGE
+});
+
+watch(
+  () => customInput.charsPerLine,
+  (val) => {
+    if (isValidGenkoGridValue(val)) {
+      customSetting.charsPerLine = val;
+    }
+  }
+);
+
+watch(
+  () => customInput.linesPerPage,
+  (val) => {
+    if (isValidGenkoGridValue(val)) {
+      customSetting.linesPerPage = val;
+    }
+  }
+);
+
+const validateGridValue = (val: unknown): true | string => {
+  if (isValidGenkoGridValue(val)) {
+    return true;
+  }
+  return t('genko.custom.invalidRange', {
+    min: GENKO_MIN_GRID,
+    max: GENKO_MAX_GRID
+  });
+};
+
 const resetCustomSetting = () => {
-  customSetting.charsPerLine = 20;
-  customSetting.linesPerPage = 20;
+  customInput.charsPerLine = GENKO_DEFAULT_CHARS_PER_LINE;
+  customInput.linesPerPage = GENKO_DEFAULT_LINES_PER_PAGE;
+  customSetting.charsPerLine = GENKO_DEFAULT_CHARS_PER_LINE;
+  customSetting.linesPerPage = GENKO_DEFAULT_LINES_PER_PAGE;
 };
 
 // 計算結果

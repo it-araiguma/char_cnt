@@ -1,8 +1,48 @@
 import { countGraphemes, countGraphemesWithoutSpaces } from './charCount';
 
+export const GENKO_MIN_GRID = 1;
+export const GENKO_MAX_GRID = 100;
+export const GENKO_DEFAULT_CHARS_PER_LINE = 20;
+export const GENKO_DEFAULT_LINES_PER_PAGE = 20;
+
 export interface GenkoSetting {
   charsPerLine: number; // 1行あたりの文字数（通常20）
   linesPerPage: number; // 1枚あたりの行数（400字なら20、200字なら10）
+}
+
+/**
+ * 原稿用紙のマス目設定値（1〜100の整数）として有効か判定する
+ */
+export function isValidGenkoGridValue(value: unknown): value is number {
+  return (
+    typeof value === 'number' &&
+    Number.isInteger(value) &&
+    value >= GENKO_MIN_GRID &&
+    value <= GENKO_MAX_GRID
+  );
+}
+
+/**
+ * 不正なマス目設定値を既定値へフォールバックする
+ */
+export function sanitizeGenkoGridValue(
+  value: unknown,
+  fallback = GENKO_DEFAULT_CHARS_PER_LINE
+): number {
+  if (isValidGenkoGridValue(value)) {
+    return value;
+  }
+  return isValidGenkoGridValue(fallback) ? fallback : GENKO_DEFAULT_CHARS_PER_LINE;
+}
+
+/**
+ * 原稿用紙設定を安全な値（1〜100の整数）へ正規化する
+ */
+export function sanitizeGenkoSetting(setting?: Partial<GenkoSetting> | null): GenkoSetting {
+  return {
+    charsPerLine: sanitizeGenkoGridValue(setting?.charsPerLine, GENKO_DEFAULT_CHARS_PER_LINE),
+    linesPerPage: sanitizeGenkoGridValue(setting?.linesPerPage, GENKO_DEFAULT_LINES_PER_PAGE)
+  };
 }
 
 export interface GenkoMetric {
@@ -43,11 +83,13 @@ export interface GenkoAnalysisResult {
  */
 export function calculateGenkoLines(
   text: string,
-  charsPerLine = 20
+  charsPerLine = GENKO_DEFAULT_CHARS_PER_LINE
 ): { totalLines: number; rawLineCount: number } {
   if (!text) {
     return { totalLines: 0, rawLineCount: 0 };
   }
+
+  const safeCharsPerLine = sanitizeGenkoGridValue(charsPerLine, GENKO_DEFAULT_CHARS_PER_LINE);
 
   let lines = text.split(/\r?\n/);
 
@@ -62,7 +104,7 @@ export function calculateGenkoLines(
     if (chars === 0) {
       totalLines += 1; // 空行も原稿用紙では1行消費
     } else {
-      totalLines += Math.ceil(chars / charsPerLine);
+      totalLines += Math.ceil(chars / safeCharsPerLine);
     }
   }
 
@@ -80,9 +122,12 @@ export function calculateGenkoMetric(
   totalLines: number,
   setting: GenkoSetting
 ): GenkoMetric {
-  const charsPerPage = setting.charsPerLine * setting.linesPerPage;
+  const safeSetting = sanitizeGenkoSetting(setting);
+  const charsPerPage = safeSetting.charsPerLine * safeSetting.linesPerPage;
+  const safeTotalChars = Number.isFinite(totalChars) ? Math.max(0, totalChars) : 0;
+  const safeTotalLines = Number.isFinite(totalLines) ? Math.max(0, totalLines) : 0;
 
-  if (totalChars === 0 || totalLines === 0) {
+  if (safeTotalChars === 0 || safeTotalLines === 0) {
     return {
       actualSheets: 0,
       actualFullSheets: 0,
@@ -96,15 +141,15 @@ export function calculateGenkoMetric(
   }
 
   // 実用紙（行数・改行考慮）
-  const actualSheets = Math.ceil(totalLines / setting.linesPerPage);
-  const actualFullSheets = Math.floor(totalLines / setting.linesPerPage);
-  const actualRemainingLines = totalLines % setting.linesPerPage;
+  const actualSheets = Math.ceil(safeTotalLines / safeSetting.linesPerPage);
+  const actualFullSheets = Math.floor(safeTotalLines / safeSetting.linesPerPage);
+  const actualRemainingLines = safeTotalLines % safeSetting.linesPerPage;
   const isExactSheet = actualRemainingLines === 0;
 
   // 文字数ベース（文字数 ÷ 1枚マス目）
-  const rawSheets = Number((totalChars / charsPerPage).toFixed(2));
-  const charFullSheets = Math.floor(totalChars / charsPerPage);
-  const charRemainingChars = totalChars % charsPerPage;
+  const rawSheets = Number((safeTotalChars / charsPerPage).toFixed(2));
+  const charFullSheets = Math.floor(safeTotalChars / charsPerPage);
+  const charRemainingChars = safeTotalChars % charsPerPage;
 
   return {
     actualSheets,
@@ -123,8 +168,12 @@ export function calculateGenkoMetric(
  */
 export function analyzeGenko(
   text: string,
-  customSetting: GenkoSetting = { charsPerLine: 20, linesPerPage: 20 }
+  customSetting: GenkoSetting = {
+    charsPerLine: GENKO_DEFAULT_CHARS_PER_LINE,
+    linesPerPage: GENKO_DEFAULT_LINES_PER_PAGE
+  }
 ): GenkoAnalysisResult {
+  const safeCustomSetting = sanitizeGenkoSetting(customSetting);
   const totalChars = countGraphemes(text);
   const charsWithoutSpaces = countGraphemesWithoutSpaces(text);
 
@@ -143,13 +192,13 @@ export function analyzeGenko(
 
   // カスタム設定
   const customLines =
-    customSetting.charsPerLine === 20
+    safeCustomSetting.charsPerLine === 20
       ? lines20
-      : calculateGenkoLines(text, customSetting.charsPerLine);
+      : calculateGenkoLines(text, safeCustomSetting.charsPerLine);
   const custom = calculateGenkoMetric(
     totalChars,
     customLines.totalLines,
-    customSetting
+    safeCustomSetting
   );
 
   return {
