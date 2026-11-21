@@ -56,7 +56,7 @@
 import { useI18n } from 'vue-i18n';
 import { computed, nextTick, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { isSupportedLocale, saveLocale, type SupportedLocale } from 'src/i18n';
+import { isSupportedLocale, replaceLocaleQuery, saveLocale, type SupportedLocale } from 'src/i18n';
 
 defineOptions({
   name: 'MainLayout'
@@ -109,12 +109,7 @@ function changeLocale(val: SupportedLocale) {
   }
   locale.value = val;
   saveLocale(val);
-  void router.replace({
-    query: {
-      ...route.query,
-      lang: val
-    }
-  });
+  replaceLocaleQuery(route, router, val);
 }
 </script>
 <style scoped>
