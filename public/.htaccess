@@ -6,3 +6,35 @@
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . /index.html [L]
 </IfModule>
+
+# テキストリソースの圧縮（Brotli 優先、gzip のみ対応のクライアント向けに deflate も併用）
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/css application/javascript text/javascript application/json application/manifest+json image/svg+xml text/xml text/plain
+</IfModule>
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript text/javascript application/json application/manifest+json image/svg+xml text/xml text/plain
+</IfModule>
+
+# キャッシュ制御
+<IfModule mod_headers.c>
+  # ハッシュ付きビルド成果物（長期キャッシュ: 1年）
+  <If "%{REQUEST_URI} =~ m#^/assets/#">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </If>
+  <FilesMatch "^workbox-[0-9a-f]+\.js$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # HTML・Service Worker・マニフェスト・クローラ向けファイル（毎回再検証）
+  <FilesMatch "^(index\.html|sw\.js|manifest\.json|sitemap\.xml|robots\.txt)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+
+  # アイコン類（中程度: 1週間）
+  <If "%{REQUEST_URI} =~ m#^/icons/#">
+    Header set Cache-Control "public, max-age=604800"
+  </If>
+  <FilesMatch "^favicon\.ico$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+</IfModule>
