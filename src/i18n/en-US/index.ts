@@ -14,7 +14,9 @@ export default {
     tools: {
       title: 'Specialized Counters',
       genkoTitle: 'Manuscript Paper (Genko Yoshi) Counter',
-      genkoDesc: 'Calculate 400 and 200-character manuscript paper sheets with line breaks and formatting guide.'
+      genkoDesc: 'Calculate 400 and 200-character manuscript paper sheets with line breaks and formatting guide.',
+      reportTitle: 'Report & Essay Character Checker',
+      reportDesc: 'Check progress and target compliance (±10%, 80%-100%, within limit) for 800-4000+ character reports.'
     }
   },
   layout: {
@@ -24,6 +26,7 @@ export default {
     footer: {
       home: 'Home',
       genko: 'Manuscript Paper Counter',
+      report: 'Report Checker',
       privacy: 'Privacy Policy',
       copyright: 'Copyright ',
       allRights: 'All Rights Reserved.'
@@ -39,6 +42,11 @@ export default {
       title: 'Genko Yoshi Manuscript Paper Counter (400 / 200 chars) - Character Counter',
       description: 'Automatically calculates the number of Japanese manuscript paper sheets (400 and 200 characters). Real-time sheet and line calculation considering line breaks.',
       keywords: 'manuscript paper,genko yoshi counter,japanese manuscript sheet,character count'
+    },
+    report: {
+      title: 'Report & Essay Character Checker (Target & Progress) - Character Counter',
+      description: 'Check real-time progress and target compliance (±10%, 80%-100%, within limit) for academic reports and essays.',
+      keywords: 'report character counter,essay length checker,target character count'
     },
     privacy: {
       title: 'Privacy Policy - Character Counter',
@@ -103,6 +111,90 @@ export default {
       tableRow4: '2,000 chars (5 sheets): University report / High school contest guideline (within 5 sheets)',
       tableRow5: '4,000 chars (10 sheets): Short story / Academic paper',
       tableRow6: '8,000 chars (20 sheets): Novelette / Thesis chapter'
+    }
+  },
+  report: {
+    title: 'Report & Essay Character Checker',
+    subtitle: 'Real-time progress bar and compliance check (±10%, 80%-100%, within limit)',
+    units: {
+      chars: 'chars'
+    },
+    target: {
+      title: 'Target Length & Settings',
+      presetFormat: '{count} chars',
+      customLabel: 'Custom target',
+      excludeSpaces: 'Exclude spaces & linebreaks'
+    },
+    rule: {
+      title: 'Target Rule Pattern',
+      around10: '±10% (Approx.)',
+      min80: '80%–100% (Minimum 80%)',
+      max100: 'Within 100% (Max limit)'
+    },
+    status: {
+      ok: 'OK',
+      short: 'Short',
+      over: 'Over',
+      empty: 'Empty',
+      rangeFormat: 'Allowed range: {min} - {max} chars',
+      okMessage: 'Your text is within the target range.',
+      shortMessage: '{diff} more characters needed to reach the minimum.',
+      overMessage: '{diff} characters over the maximum limit.',
+      emptyMessage: 'Enter your text to check progress against your target length.'
+    },
+    input: {
+      placeholder: 'Type or paste your report or essay here...',
+      clear: 'Clear',
+      copy: 'Copy',
+      copied: 'Copied to clipboard',
+      sample: 'Insert Sample'
+    },
+    summary: {
+      totalChars: 'Total Characters',
+      noSpaces: 'Without Spaces & Linebreaks',
+      paragraphs: 'Paragraphs',
+      genkoSheets: '400-char Sheets (est.)'
+    },
+    guide: {
+      title: 'Report & Essay Length Guidelines',
+      subtitle: 'What counts toward the character limit and how to interpret target ranges',
+      criteriaTitle: 'What Should Be Included in the Count?',
+      criteriaHeaderItem: 'Element',
+      criteriaHeaderInclude: 'Included?',
+      criteriaHeaderNote: 'Standard Guideline',
+      criteriaInclude: 'Usually Included',
+      criteriaExclude: 'Usually Excluded',
+      criteriaConditional: 'Check Guidelines',
+      criteriaRow1Item: 'Title, Name & Student ID',
+      criteriaRow1Note: 'Character limits usually apply to the main body text only.',
+      criteriaRow2Item: 'Section Headings',
+      criteriaRow2Note: 'Headings are part of the body structure and are generally counted.',
+      criteriaRow3Item: 'References & Bibliography',
+      criteriaRow3Note: 'Typically excluded, though some assignments specify including references.',
+      criteriaRow4Item: 'Figures, Captions & Footnotes',
+      criteriaRow4Note: 'Text inside figures is excluded; check your syllabus for captions and footnotes.',
+      criteriaRow5Item: 'Spaces & Linebreaks',
+      criteriaRow5Note: 'Word processors often exclude spaces, whereas online LMS forms usually count them.',
+      rule1Title: '1. Interpreting Target Phrasing',
+      rule1Body: '・"Approx. X chars": Aim for within ±10% of the target.\n・"At least X chars": Exceed the target without going overly long (+10% to +20%).\n・"Up to X chars": Never exceed the limit; aim for at least 80% of the maximum.',
+      rule2Title: '2. Word Processor vs. Web Form Counts',
+      rule2Body: '・Desktop editors often exclude spaces by default, while web submission forms count every character including linebreaks.\n・Use the toggle above to check both modes instantly.',
+      tableTitle: 'Common Report & Essay Length Benchmarks',
+      tableHeaderChars: 'Target',
+      tableHeaderVolume: 'Estimated Volume',
+      tableHeaderPurpose: 'Common Use Case',
+      tableRow1Chars: '800 chars',
+      tableRow1Volume: '~0.7 A4 page / 2 sheets',
+      tableRow1Purpose: 'Reaction paper, short essay',
+      tableRow2Chars: '1,200 chars',
+      tableRow2Volume: '~1 A4 page / 3 sheets',
+      tableRow2Purpose: 'Entrance exam essay, standard short report',
+      tableRow3Chars: '2,000 chars',
+      tableRow3Volume: '~1.5–2 A4 pages / 5 sheets',
+      tableRow3Purpose: 'University term report, seminar assignment',
+      tableRow4Chars: '4,000 chars',
+      tableRow4Volume: '~3–3.5 A4 pages / 10 sheets',
+      tableRow4Purpose: 'Research paper, final course report'
     }
   },
   privacyPolicy: {

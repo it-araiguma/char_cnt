@@ -12,7 +12,9 @@ export default {
     tools: {
       title: 'Compteurs spécialisés',
       genkoTitle: 'Convertisseur Genko Yoshi (papier manuscrit)',
-      genkoDesc: 'Calculez le nombre de feuilles 400 et 200 caractères avec prise en compte des retours.'
+      genkoDesc: 'Calculez le nombre de feuilles 400 et 200 caractères avec prise en compte des retours.',
+      reportTitle: 'Vérificateur de rapport et dissertation',
+      reportDesc: 'Suivez votre progression par rapport à un objectif (±10%, 80%-100%, limite max).'
     }
   },
   layout: {
@@ -22,6 +24,7 @@ export default {
     footer: {
       home: 'Accueil',
       genko: 'Convertisseur Genko Yoshi',
+      report: 'Vérificateur de rapport',
       privacy: 'Politique de confidentialité',
       copyright: 'Copyright ',
       allRights: 'Tous droits réservés.'
@@ -37,6 +40,11 @@ export default {
       title: 'Convertisseur Genko Yoshi (papier manuscrit 400/200) - Compteur de caractères',
       description: 'Calcule automatiquement le nombre de pages et de lignes de papier manuscrit japonais (Genko Yoshi 400 et 200 caractères) avec prise en compte des retours à la ligne.',
       keywords: 'genko yoshi,papier manuscrit,compteur de caractères japonais,nombre de pages'
+    },
+    report: {
+      title: 'Vérificateur de longueur de rapport et dissertation - Compteur de caractères',
+      description: 'Vérifiez en temps réel votre progression et le respect de l\'objectif de caractères (±10%, 80%-100%, limite max).',
+      keywords: 'compteur rapport,longueur dissertation,objectif caractères'
     },
     privacy: {
       title: 'Politique de confidentialité - Compteur de caractères',
@@ -101,6 +109,90 @@ export default {
       tableRow4: '2 000 car. (5 feuilles) : Rapport universitaire',
       tableRow5: '4 000 car. (10 feuilles) : Nouvelle courte',
       tableRow6: '8 000 car. (20 feuilles) : Roman court / Chapitre'
+    }
+  },
+  report: {
+    title: 'Vérificateur de rapport et dissertation',
+    subtitle: 'Progression en temps réel et contrôle de conformité (±10%, 80%-100%, limite max)',
+    units: {
+      chars: 'car.'
+    },
+    target: {
+      title: 'Objectif et critères',
+      presetFormat: '{count} car.',
+      customLabel: 'Objectif personnalisé',
+      excludeSpaces: 'Exclure espaces et retours'
+    },
+    rule: {
+      title: 'Règle de validation',
+      around10: '±10% (Environ)',
+      min80: '80%–100% (Min 80%)',
+      max100: 'Max 100% (Limite)'
+    },
+    status: {
+      ok: 'OK',
+      short: 'Insuffisant',
+      over: 'Dépassé',
+      empty: 'Vide',
+      rangeFormat: 'Plage autorisée : {min} - {max} car.',
+      okMessage: 'Votre texte respecte la plage autorisée.',
+      shortMessage: 'Il manque {diff} caractères pour atteindre le minimum.',
+      overMessage: 'Vous dépassez la limite de {diff} caractères.',
+      emptyMessage: 'Saisissez votre texte pour vérifier l\'objectif.'
+    },
+    input: {
+      placeholder: 'Saisissez ou collez votre rapport ou dissertation ici...',
+      clear: 'Effacer',
+      copy: 'Copier',
+      copied: 'Copié dans le presse-papiers',
+      sample: 'Insérer un exemple'
+    },
+    summary: {
+      totalChars: 'Total caractères',
+      noSpaces: 'Sans espaces ni retours',
+      paragraphs: 'Paragraphes',
+      genkoSheets: 'Feuilles 400 car. (est.)'
+    },
+    guide: {
+      title: 'Guide de comptage pour rapports et dissertations',
+      subtitle: 'Éléments inclus dans le décompte et interprétation des consignes',
+      criteriaTitle: 'Que faut-il inclure dans le décompte ?',
+      criteriaHeaderItem: 'Élément',
+      criteriaHeaderInclude: 'Inclus ?',
+      criteriaHeaderNote: 'Règle générale',
+      criteriaInclude: 'Généralement inclus',
+      criteriaExclude: 'Généralement exclu',
+      criteriaConditional: 'À vérifier',
+      criteriaRow1Item: 'Titre, nom et numéro étudiant',
+      criteriaRow1Note: 'Les limites s\'appliquent généralement au corps du texte uniquement.',
+      criteriaRow2Item: 'Titres de sections',
+      criteriaRow2Note: 'Les titres font partie de la structure du texte et sont comptés.',
+      criteriaRow3Item: 'Bibliographie et références',
+      criteriaRow3Note: 'Souvent exclue, sauf indication contraire dans la consigne.',
+      criteriaRow4Item: 'Figures, légendes et notes',
+      criteriaRow4Note: 'Le texte dans les figures est exclu ; vérifiez pour les légendes.',
+      criteriaRow5Item: 'Espaces et retours à la ligne',
+      criteriaRow5Note: 'Certains éditeurs excluent les espaces, mais les formulaires web les comptent.',
+      rule1Title: '1. Interpréter les consignes de longueur',
+      rule1Body: '・「Environ X car.」 : Visez ±10% autour de la cible.\n・「Au moins X car.」 : Dépassez la cible sans excès (+10% à +20%).\n・「Maximum X car.」 : Ne dépassez jamais la limite et visez au moins 80%.',
+      rule2Title: '2. Différence entre éditeur et formulaire web',
+      rule2Body: '・Utilisez le bouton ci-dessus pour basculer entre le comptage avec ou sans espaces.',
+      tableTitle: 'Repères courants de longueur',
+      tableHeaderChars: 'Objectif',
+      tableHeaderVolume: 'Volume estimé',
+      tableHeaderPurpose: 'Usage courant',
+      tableRow1Chars: '800 car.',
+      tableRow1Volume: '~0,7 page A4',
+      tableRow1Purpose: 'Note de lecture, essai court',
+      tableRow2Chars: '1 200 car.',
+      tableRow2Volume: '~1 page A4',
+      tableRow2Purpose: 'Dissertation d\'examen, court rapport',
+      tableRow3Chars: '2 000 car.',
+      tableRow3Volume: '~1,5–2 pages A4',
+      tableRow3Purpose: 'Rapport universitaire',
+      tableRow4Chars: '4 000 car.',
+      tableRow4Volume: '~3–3,5 pages A4',
+      tableRow4Purpose: 'Mémoire court, rapport de recherche'
     }
   },
   privacyPolicy: {

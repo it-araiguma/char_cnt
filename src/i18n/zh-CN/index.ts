@@ -12,7 +12,9 @@ export default {
     tools: {
       title: '特定用途计数器',
       genkoTitle: '原稿纸字数换算器',
-      genkoDesc: '自动计算400字与200字日文原稿纸页数与行数，包含换行换算及书写规范。'
+      genkoDesc: '自动计算400字与200字日文原稿纸页数与行数，包含换行换算及书写规范。',
+      reportTitle: '论文与报告字数检查器',
+      reportDesc: '实时检查800至4000字目标的完成进度与达标判定（±10%、80%〜100%、上限以内）。'
     }
   },
   layout: {
@@ -22,6 +24,7 @@ export default {
     footer: {
       home: '首页',
       genko: '原稿纸字数换算',
+      report: '报告字数检查',
       privacy: '隐私政策',
       copyright: '版权所有 ',
       allRights: '保留所有权利。'
@@ -37,6 +40,11 @@ export default {
       title: '日文原稿纸换算计数器（400字・200字）页数行数自动计算 - 字符计数器',
       description: '实时自动计算文本换算为400字与200字原稿纸的页数与行数，同时显示考虑换行与空行的实际纸张数及字数估算。',
       keywords: '原稿纸 换算,原稿纸 字数,400字原稿纸 几张,作文 原稿纸 页数,字符计数器'
+    },
+    report: {
+      title: '论文与报告字数检查器（目标进度与达标判定） - 字符计数器',
+      description: '实时检查学术报告与论文的字数进度及达标判定（±10%、80%〜100%、上限以内），附带字数统计范围说明。',
+      keywords: '报告 字数统计,论文 字数检查,目标字数,字符计数器'
     },
     privacy: {
       title: '隐私政策 - 字符计数器',
@@ -101,6 +109,90 @@ export default {
       tableRow4: '2,000字（5页）：大学课程报告、高中生竞赛规定（5页以内）',
       tableRow5: '4,000字（10页）：短篇小说、学术论文初稿',
       tableRow6: '8,000字（20页）：中篇小说、毕业论文准备章节'
+    }
+  },
+  report: {
+    title: '论文与报告字数检查器',
+    subtitle: '实时显示目标字数的完成进度与达标判定（±10%、80%〜100%、上限以内）',
+    units: {
+      chars: '字'
+    },
+    target: {
+      title: '目标字数与判定条件',
+      presetFormat: '{count}字',
+      customLabel: '自定义目标字数',
+      excludeSpaces: '统计时排除空格和换行'
+    },
+    rule: {
+      title: '字数要求模式',
+      around10: '±10%（约目标字数）',
+      min80: '80%〜100%（不少于8成）',
+      max100: '100%以内（不超过上限）'
+    },
+    status: {
+      ok: 'OK（达标）',
+      short: '不足',
+      over: '超出',
+      empty: '未输入',
+      rangeFormat: '允许范围: {min} 〜 {max}字',
+      okMessage: '当前字数在允许范围内。',
+      shortMessage: '距离最低要求还差 {diff} 字。',
+      overMessage: '已超出上限 {diff} 字。',
+      emptyMessage: '输入文本后将显示目标字数的达标判定。'
+    },
+    input: {
+      placeholder: '在此处输入或粘贴报告或论文正文...',
+      clear: '清除',
+      copy: '复制',
+      copied: '已复制到剪贴板',
+      sample: '插入示例'
+    },
+    summary: {
+      totalChars: '总字数',
+      noSpaces: '无空格和换行',
+      paragraphs: '段落数',
+      genkoSheets: '400字稿纸约(页)'
+    },
+    guide: {
+      title: '报告与论文字数统计规范说明',
+      subtitle: '标题、参考文献、小标题及图表说明是否计入字数的判断标准',
+      criteriaTitle: '计入与不计入字数的判断标准',
+      criteriaHeaderItem: '项目',
+      criteriaHeaderInclude: '是否计入',
+      criteriaHeaderNote: '一般判断标准与注意事项',
+      criteriaInclude: '通常计入',
+      criteriaExclude: '通常不计入',
+      criteriaConditional: '视要求而定',
+      criteriaRow1Item: '标题、姓名、学号',
+      criteriaRow1Note: '字数要求通常仅针对正文部分，封面与标题行一般不计入。',
+      criteriaRow2Item: '章节小标题',
+      criteriaRow2Note: '章节标题属于正文结构的一部分，一般计入总字数。',
+      criteriaRow3Item: '参考文献与引用列表',
+      criteriaRow3Note: '一般不计入正文字数，但部分课程或期刊会明确要求包含参考文献。',
+      criteriaRow4Item: '图表、图注与脚注',
+      criteriaRow4Note: '图表内文字通常不计入，图注与脚注请以具体作业要求为准。',
+      criteriaRow5Item: '空格与换行符',
+      criteriaRow5Note: 'Word 默认统计不含空格的字数，而在线提交表单通常会把换行与空格也计入字符数。',
+      rule1Title: '1. 常见字数要求的理解方式',
+      rule1Body: '・「约 X 字」：一般以目标字数的 ±10% 为合理范围。\n・「X 字以上」：达到要求后，建议控制在 +10%〜20% 以内。\n・「X 字以内」：切勿超过上限，建议至少写到上限的 80% 以上。',
+      rule2Title: '2. Word 与在线表单的字数差异',
+      rule2Body: '・桌面端文字处理软件通常不计入空格，而网页提交框会将空格和换行也计入字符数。\n・您可以通过上方的“排除空格和换行”开关随时切换核对。',
+      tableTitle: '常见报告与论文字数参考标准',
+      tableHeaderChars: '指定字数',
+      tableHeaderVolume: '篇幅参考',
+      tableHeaderPurpose: '主要用途',
+      tableRow1Chars: '800字',
+      tableRow1Volume: 'A4约0.7页 / 400字稿纸2页',
+      tableRow1Purpose: '课堂感想、短篇小论文',
+      tableRow2Chars: '1,200字',
+      tableRow2Volume: 'A4约1页 / 400字稿纸3页',
+      tableRow2Purpose: '入学小论文、常规课程短报告',
+      tableRow3Chars: '2,000字',
+      tableRow3Volume: 'A4约1.5〜2页 / 400字稿纸5页',
+      tableRow3Purpose: '大学期末报告、研讨课作业',
+      tableRow4Chars: '4,000字',
+      tableRow4Volume: 'A4约3〜3.5页 / 400字稿纸10页',
+      tableRow4Purpose: '专业课程期末论文、研究报告'
     }
   },
   privacyPolicy: {

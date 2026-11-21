@@ -455,13 +455,21 @@
         </q-card>
 
         <!-- 他のツールへのナビゲーション -->
-        <div class="text-center q-my-lg">
+        <div class="row justify-center q-gutter-sm q-my-lg">
           <q-btn
             outline
             color="primary"
             icon="arrow_back"
             :label="$t('layout.footer.home')"
             to="/"
+            class="q-px-lg"
+          />
+          <q-btn
+            outline
+            color="secondary"
+            icon="assignment"
+            :label="$t('layout.footer.report')"
+            to="/report"
             class="q-px-lg"
           />
         </div>
