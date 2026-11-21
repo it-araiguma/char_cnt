@@ -12,6 +12,7 @@
     "dev": "quasar dev",
     "build": "quasar build",
     "build:pwa": "quasar build -m pwa",
+    "postinstall": "quasar prepare",
     "typecheck": "quasar prepare && vue-tsc --noEmit"
   },
   "dependencies": {
