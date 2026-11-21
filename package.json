@@ -12,22 +12,22 @@
     "dev": "quasar dev",
     "build": "quasar build",
     "build:pwa": "quasar build -m pwa",
-    "typecheck": "vue-tsc --noEmit"
+    "typecheck": "quasar prepare && vue-tsc --noEmit"
   },
   "dependencies": {
-    "@quasar/extras": "^1.16.4",
+    "@quasar/extras": "^1.17.0",
     "@vueuse/head": "^2.0.0",
     "axios": "^1.2.1",
     "pinia": "^2.0.11",
-    "quasar": "^2.16.0",
-    "vue": "^3.4.18",
-    "vue-i18n": "^9.2.2",
+    "quasar": "^2.35.6",
+    "vue": "^3.5.46",
+    "vue-i18n": "^11.4.23",
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
-    "@intlify/vite-plugin-vue-i18n": "^3.3.1",
-    "@quasar/app-vite": "^1.9.0",
-    "@types/node": "^20.14.8",
+    "@intlify/unplugin-vue-i18n": "^11.2.8",
+    "@quasar/app-vite": "^2.6.2",
+    "@types/node": "^22.0.0",
     "@typescript-eslint/eslint-plugin": "^7.16.0",
     "@typescript-eslint/parser": "^7.16.0",
     "autoprefixer": "^10.4.2",
@@ -35,9 +35,9 @@
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-vue": "^9.0.0",
     "prettier": "^2.5.1",
-    "typescript": "~5.5.4",
-    "vite-plugin-checker": "^0.8.0",
-    "vue-tsc": "^2.0.29",
+    "typescript": "^5.9.3",
+    "vite-plugin-checker": "^0.10.3",
+    "vue-tsc": "^3.3.14",
     "workbox-build": "^7.1.1",
     "workbox-cacheable-response": "^7.1.0",
     "workbox-core": "^7.1.0",
@@ -47,7 +47,7 @@
     "workbox-strategies": "^7.1.0"
   },
   "engines": {
-    "node": "^20 || ^18 || ^16",
+    "node": ">= 22.0.0",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
   }

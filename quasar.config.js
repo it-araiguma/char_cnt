@@ -1,18 +1,13 @@
-/* eslint-env node */
-
-/*
- * This file runs in a Node context (it's NOT transpiled by Babel), so use only
- * the ES6 features that are supported by your Node version. https://node.green/
- */
-
 // Configuration for your app
-// https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
+// https://v2.quasar.dev/quasar-cli-vite/quasar-config-file
 
+import { defineConfig } from '#q-app/wrappers';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const { configure } = require('quasar/wrappers');
-const path = require('path');
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-module.exports = configure(function (/* ctx */) {
+export default defineConfig((/* ctx */) => {
   return {
     // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
     // preFetch: true,
@@ -48,8 +43,8 @@ module.exports = configure(function (/* ctx */) {
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#build
     build: {
       target: {
-        browser: [ 'es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1' ],
-        node: 'node20'
+        browser: [ 'es2022', 'firefox115', 'chrome115', 'safari14' ],
+        node: 'node22'
       },
 
       vueRouterMode: 'history', // available values: 'hash', 'history'
@@ -72,7 +67,7 @@ module.exports = configure(function (/* ctx */) {
       // viteVuePluginOptions: {},
 
       vitePlugins: [
-        ['@intlify/vite-plugin-vue-i18n', {
+        ['@intlify/unplugin-vue-i18n/vite', {
           // if you want to use Vue I18n Legacy API, you need to set `compositionOnly: false`
           // compositionOnly: false,
 
@@ -81,7 +76,7 @@ module.exports = configure(function (/* ctx */) {
           // runtimeOnly: false,
 
           // you need to set i18n resource including paths !
-          include: path.resolve(__dirname, './src/i18n/**')
+          include: [path.resolve(__dirname, './src/i18n/**')]
         }],
         ['vite-plugin-checker', {
           vueTsc: {
@@ -157,7 +152,7 @@ module.exports = configure(function (/* ctx */) {
 
     // https://v2.quasar.dev/quasar-cli-vite/developing-pwa/configuring-pwa
     pwa: {
-      workboxMode: 'generateSW', // or 'injectManifest'
+      workboxMode: 'GenerateSW', // or 'InjectManifest'
       injectPwaMetaTags: true,
       swFilename: 'sw.js',
       manifestFilename: 'manifest.json',
