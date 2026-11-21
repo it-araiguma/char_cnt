@@ -86,7 +86,8 @@ export default {
       title: '用紙マス目設定のカスタマイズ',
       charsPerLine: '1行の文字数',
       linesPerPage: '1枚の行数',
-      reset: '標準に戻す'
+      reset: '標準に戻す',
+      invalidRange: '{min}〜{max}の整数を入力してください'
     },
     guide: {
       title: '原稿用紙の書き方・基本マナー解説',

@@ -86,7 +86,8 @@ export default {
       title: 'Personnaliser la grille',
       charsPerLine: 'Caractères par ligne',
       linesPerPage: 'Lignes par feuille',
-      reset: 'Réinitialiser'
+      reset: 'Réinitialiser',
+      invalidRange: 'Veuillez saisir un entier entre {min} et {max}'
     },
     guide: {
       title: 'Guide d\'écriture et règles du Genko Yoshi',

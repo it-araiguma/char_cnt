@@ -88,7 +88,8 @@ export default {
       title: 'Customize Paper Grid',
       charsPerLine: 'Characters per line',
       linesPerPage: 'Lines per sheet',
-      reset: 'Reset to default'
+      reset: 'Reset to default',
+      invalidRange: 'Enter an integer between {min} and {max}'
     },
     guide: {
       title: 'Manuscript Paper Rules & Writing Guide',
