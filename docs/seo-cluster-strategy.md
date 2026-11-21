@@ -41,12 +41,13 @@
 | 指標 | 値 | 取得方法 |
 | :--- | :--- | :--- |
 | Google日本「文字数カウント」「文字数カウンター」 | 50位以内に無し | 手動検索（2026-11-15） |
-| インデックス済みページ数 | 1件（トップのみ） | 手動確認（2026-11-15） |
+| インデックス済みページ数 | 1件（`/` のみ。`/genko` は「検出 - インデックス未登録」） | `scripts/gsc_tool.py inspect`（2026-11-21） |
 | GA4 直近28日 PV | 1（`/` のみ） | `scripts/ga4_report.py pages` |
 | GA4 直近28日 セッション | 2（Direct 1 / Unassigned 1、Organic Search 0） | `scripts/ga4_report.py channels` |
-| Search Console 表示回数・クリック・掲載順位 | **API取得不可** | `scripts/gsc_tool.py status` が `siteUnverifiedUser` を返す |
+| Search Console 表示回数・クリック（直近28日: 2026-10-24〜2026-11-21） | 表示回数 205 / クリック 0（`/` のみ） | `scripts/gsc_tool.py analytics`（2026-11-21） |
+| Search Console 掲載順位（直近28日: 2026-10-24〜2026-11-21） | ページ全体平均 14.6位（英語クエリ17件が中心、上位例: `number of characters` 5.0位、`count character` 6.0位、`chars counter online` 8.0位） | `scripts/gsc_tool.py analytics`（2026-11-21） |
 
-Search Console は、サービスアカウント `blog-957@youtube-analytics-472912.iam.gserviceaccount.com` がプロパティ `https://count.it-araiguma.com/` で未検証ユーザーのままです。そのため検索パフォーマンス・URL検査を API で取得できません。権限付与は Search Console UI での操作が必要で、#40 で管理します。
+`https://count.it-araiguma.com/` の最終クロールは `2026-09-25T12:37:50Z`（#10 日本語化・#11 History Mode 化以前）のため、英語クエリでの表示が中心となっています。2026-11-21 に `scripts/gsc_tool.py submit-sitemap` でサイトマップを再送信済みです（#40）。
 
 ---
 
@@ -119,9 +120,10 @@ Search Console は、サービスアカウント `blog-957@youtube-analytics-472
 python3 scripts/ga4_report.py pages --start 28daysAgo --end today
 # GA4：流入チャネル別（Organic Search の確認）
 python3 scripts/ga4_report.py channels --start 28daysAgo --end today
-# Search Console：権限状態・URL検査（権限付与後に検索パフォーマンスも取得可能）
+# Search Console：権限状態・URL検査・検索パフォーマンス
 python3 scripts/gsc_tool.py status
 python3 scripts/gsc_tool.py inspect https://count.it-araiguma.com/genko
+python3 scripts/gsc_tool.py analytics --dimension both --days 28
 ```
 
 ---
@@ -136,5 +138,5 @@ python3 scripts/gsc_tool.py inspect https://count.it-araiguma.com/genko
 | #13 | 用途別ページ第1弾のキーワード調査と優先順位一覧 | 完了 |
 | #26 | 原稿用紙換算カウンター（`/genko`） | 完了 |
 | #14 | ブログからの内部リンク導線の検討 | 未着手 |
-| #40 | Search Console：サービスアカウントへの権限付与と検索パフォーマンス取得 | 未着手 |
+| #40 | Search Console：サービスアカウントへの権限付与と検索パフォーマンス取得 | 完了 |
 | #41 | レポート・小論文文字数チェッカー（`/report`）＝第2弾 | 未着手 |
