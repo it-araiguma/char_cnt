@@ -243,6 +243,10 @@ export default {
       contactLink: '問い合わせフォーム'
     }
   },
+  pwa: {
+    updateAvailable: '新しいバージョンが利用可能です。',
+    reload: '更新する'
+  },
   failed: 'アクションに失敗しました',
   success: 'アクションが成功しました'
 };

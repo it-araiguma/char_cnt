@@ -7,6 +7,11 @@ import {
 } from 'vue-router';
 
 import routes from './routes';
+import {
+  isChunkLoadError,
+  isSwUpdated,
+  reloadWithCooldown,
+} from 'src/utils/chunkRecovery';
 
 /*
  * If not building with SSR mode, you can
@@ -31,6 +36,21 @@ export default route(function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.VUE_ROUTER_BASE),
   });
+
+  if (!process.env.SERVER && typeof window !== 'undefined') {
+    Router.beforeEach((to) => {
+      if (isSwUpdated()) {
+        window.location.assign(to.fullPath);
+        return false;
+      }
+    });
+
+    Router.onError((error, to) => {
+      if (isChunkLoadError(error)) {
+        reloadWithCooldown(to.fullPath);
+      }
+    });
+  }
 
   return Router;
 });

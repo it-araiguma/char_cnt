@@ -245,6 +245,10 @@ export default {
       contactLink: 'Contact Form'
     }
   },
+  pwa: {
+    updateAvailable: 'A new version is available.',
+    reload: 'Reload'
+  },
   failed: 'Action failed',
   success: 'Action was successful'
 };

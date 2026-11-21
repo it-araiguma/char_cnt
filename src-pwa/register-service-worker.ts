@@ -1,4 +1,7 @@
+import { Notify } from 'quasar';
 import { register } from 'register-service-worker';
+import { i18n } from 'src/boot/i18n';
+import { markSwUpdated } from 'src/utils/chunkRecovery';
 
 // The ready(), registered(), cached(), updatefound() and updated()
 // events passes a ServiceWorkerRegistration instance in their arguments.
@@ -28,7 +31,29 @@ register(process.env.SERVICE_WORKER_FILE, {
   },
 
   updated (/* registration */) {
-    // console.log('New content is available; please refresh.')
+    markSwUpdated();
+    Notify.create({
+      message: i18n.global.t('pwa.updateAvailable'),
+      color: 'primary',
+      icon: 'system_update',
+      position: 'bottom',
+      timeout: 0,
+      actions: [
+        {
+          label: i18n.global.t('pwa.reload'),
+          color: 'white',
+          handler: () => {
+            window.location.reload();
+          }
+        },
+        {
+          icon: 'close',
+          color: 'white',
+          round: true,
+          dense: true
+        }
+      ]
+    });
   },
 
   offline () {
