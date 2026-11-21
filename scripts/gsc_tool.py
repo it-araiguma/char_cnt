@@ -1,19 +1,21 @@
 #!/usr/bin/env python3
-"""Google Search Console の登録状況確認・サイトマップ送信・URL検査スクリプト。
+"""Google Search Console の登録状況確認・サイトマップ送信・URL検査・検索パフォーマンス取得スクリプト。
 
 使用法:
   python3 scripts/gsc_tool.py status
   python3 scripts/gsc_tool.py submit-sitemap [--sitemap-url <url>]
   python3 scripts/gsc_tool.py inspect <url>
+  python3 scripts/gsc_tool.py analytics [--dimension query|page|both] [--days 28] [--start YYYY-MM-DD] [--end YYYY-MM-DD]
 """
 
 from __future__ import annotations
 
 import argparse
+import datetime
 import json
 import os
 import sys
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 
 DEFAULT_SITE_URL = "https://count.it-araiguma.com/"
 DEFAULT_SITEMAP_URL = "https://count.it-araiguma.com/sitemap.xml"
@@ -111,6 +113,100 @@ def cmd_inspect(url: str, site_url: str, sa_path: str) -> int:
     return 0 if res.status_code == 200 else 1
 
 
+def _resolve_date_range(
+    start: Optional[str], end: Optional[str], days: int
+) -> tuple[str, str]:
+    """開始日・終了日を YYYY-MM-DD 形式で解決する。"""
+    if days <= 0:
+        raise ValueError("--days は 1 以上を指定してください。")
+    end_date = (
+        datetime.date.fromisoformat(end) if end else datetime.date.today()
+    )
+    start_date = (
+        datetime.date.fromisoformat(start)
+        if start
+        else end_date - datetime.timedelta(days=days)
+    )
+    if start_date > end_date:
+        raise ValueError(f"開始日 ({start_date}) が終了日 ({end_date}) より後になっています。")
+    return start_date.isoformat(), end_date.isoformat()
+
+
+def _fetch_search_analytics(
+    service: Any,
+    site_url: str,
+    start_date: str,
+    end_date: str,
+    dimension: str,
+    row_limit: int,
+) -> List[Dict[str, Any]]:
+    """Search Analytics API から指定ディメンションの検索パフォーマンスを取得する。"""
+    body = {
+        "startDate": start_date,
+        "endDate": end_date,
+        "dimensions": [dimension],
+        "rowLimit": row_limit,
+    }
+    res = service.searchanalytics().query(siteUrl=site_url, body=body).execute()
+    return res.get("rows", [])
+
+
+def cmd_analytics(
+    site_url: str,
+    sa_path: str,
+    dimension: str,
+    start: Optional[str],
+    end: Optional[str],
+    days: int,
+    row_limit: int,
+) -> int:
+    """Search Analytics API でクエリ別・ページ別の表示回数・クリック・掲載順位を取得する。"""
+    try:
+        start_date, end_date = _resolve_date_range(start, end, days)
+    except ValueError as e:
+        print(f"[gsc:analytics] 引数エラー: {e}")
+        return 2
+
+    print(
+        f"[gsc:analytics] 検索パフォーマンス取得: site={site_url}, 期間={start_date}〜{end_date}, dimension={dimension}"
+    )
+    creds = get_credentials(sa_path)
+    from googleapiclient.discovery import build
+
+    service = build("searchconsole", "v1", credentials=creds)
+    target_dims = ["query", "page"] if dimension == "both" else [dimension]
+    dim_labels = {"query": "クエリ", "page": "ページ"}
+
+    try:
+        for dim in target_dims:
+            rows = _fetch_search_analytics(
+                service, site_url, start_date, end_date, dim, row_limit
+            )
+            label = dim_labels[dim]
+            print(f"\n[{label}別] ({len(rows)}件)")
+            if not rows:
+                print("  (データなし)")
+                continue
+
+            total_clicks = sum(int(r.get("clicks", 0)) for r in rows)
+            total_impressions = sum(int(r.get("impressions", 0)) for r in rows)
+            print(f"  {label}\tクリック\t表示回数\tCTR\t掲載順位")
+            for r in rows:
+                key = r.get("keys", ["-"])[0]
+                clicks = int(r.get("clicks", 0))
+                impressions = int(r.get("impressions", 0))
+                ctr = float(r.get("ctr", 0.0)) * 100
+                position = float(r.get("position", 0.0))
+                print(
+                    f"  {key}\t{clicks}\t{impressions}\t{ctr:.1f}%\t{position:.1f}"
+                )
+            print(f"  合計\t{total_clicks}\t{total_impressions}\t-\t-")
+        return 0
+    except Exception as e:
+        print(f"[gsc:analytics] 取得エラー: {e}")
+        return 1
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Search Console 管理ツール")
     parser.add_argument(
@@ -144,6 +240,42 @@ def main() -> int:
     p_inspect = subparsers.add_parser("inspect", help="URL Inspection API による検査")
     p_inspect.add_argument("url", help="検査対象のURL（例: https://count.it-araiguma.com/）")
 
+    # analytics
+    p_analytics = subparsers.add_parser(
+        "analytics",
+        aliases=["search-analytics"],
+        help="Search Analytics API による検索パフォーマンス取得",
+    )
+    p_analytics.add_argument(
+        "--dimension",
+        "-d",
+        choices=["query", "page", "both"],
+        default="both",
+        help="集計ディメンション（既定: both）",
+    )
+    p_analytics.add_argument(
+        "--days",
+        type=int,
+        default=28,
+        help="--start 未指定時の遡及日数（既定: 28）",
+    )
+    p_analytics.add_argument(
+        "--start",
+        default=None,
+        help="開始日（YYYY-MM-DD、既定: 終了日の --days 日前）",
+    )
+    p_analytics.add_argument(
+        "--end",
+        default=None,
+        help="終了日（YYYY-MM-DD、既定: 本日）",
+    )
+    p_analytics.add_argument(
+        "--limit",
+        type=int,
+        default=100,
+        help="取得件数上限（既定: 100）",
+    )
+
     args = parser.parse_args()
 
     if args.command == "status":
@@ -152,6 +284,16 @@ def main() -> int:
         return cmd_submit_sitemap(args.site_url, args.sitemap_url, args.sa_path)
     elif args.command == "inspect":
         return cmd_inspect(args.url, args.site_url, args.sa_path)
+    elif args.command in ("analytics", "search-analytics"):
+        return cmd_analytics(
+            args.site_url,
+            args.sa_path,
+            args.dimension,
+            args.start,
+            args.end,
+            args.days,
+            args.limit,
+        )
 
     return 0
 
