@@ -70,6 +70,32 @@ export function resolveInitialLocale(): SupportedLocale {
   return DEFAULT_LOCALE;
 }
 
+export function replaceLocaleQuery(
+  route: RouteLocationNormalizedLoaded,
+  router: Router,
+  targetLocale: SupportedLocale
+): void {
+  const currentLang = Array.isArray(route.query.lang) ? route.query.lang[0] : route.query.lang;
+
+  if (targetLocale === DEFAULT_LOCALE) {
+    if ('lang' in route.query) {
+      const restQuery = { ...route.query };
+      delete restQuery.lang;
+      void router.replace({ query: restQuery });
+    }
+    return;
+  }
+
+  if (currentLang !== targetLocale) {
+    void router.replace({
+      query: {
+        ...route.query,
+        lang: targetLocale
+      }
+    });
+  }
+}
+
 export function syncLocaleWithRoute(
   route: RouteLocationNormalizedLoaded,
   router: Router,
@@ -80,19 +106,14 @@ export function syncLocaleWithRoute(
   if (isSupportedLocale(rawRouteLang)) {
     locale.value = rawRouteLang;
     saveLocale(rawRouteLang);
+    if (rawRouteLang === DEFAULT_LOCALE) {
+      replaceLocaleQuery(route, router, DEFAULT_LOCALE);
+    }
   } else {
     const savedLocale = getSavedLocale();
-    if (savedLocale) {
-      locale.value = savedLocale;
-      void router.replace({
-        query: {
-          ...route.query,
-          lang: savedLocale
-        }
-      });
-    } else {
-      locale.value = DEFAULT_LOCALE;
-    }
+    const nextLocale = savedLocale ?? DEFAULT_LOCALE;
+    locale.value = nextLocale;
+    replaceLocaleQuery(route, router, nextLocale);
   }
 }
 

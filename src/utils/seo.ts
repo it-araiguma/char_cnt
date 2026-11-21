@@ -2,7 +2,32 @@ import { useI18n } from 'vue-i18n';
 import { useHead } from '@vueuse/head';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from 'src/i18n';
+import {
+  DEFAULT_LOCALE,
+  SUPPORTED_LOCALES,
+  isSupportedLocale,
+  type SupportedLocale
+} from 'src/i18n';
+
+const DEFAULT_BASE_URL = 'https://count.it-araiguma.com';
+
+/**
+ * 言語に応じた正規URLを生成する（既定言語 ja-JP は ?lang= を付けない）
+ */
+export function buildLocalizedUrl(baseUrl: string, path: string, lang: SupportedLocale): string {
+  const normalizedPath = path || '/';
+  if (lang === DEFAULT_LOCALE) {
+    return `${baseUrl}${normalizedPath}`;
+  }
+  return `${baseUrl}${normalizedPath}?lang=${encodeURIComponent(lang)}`;
+}
+
+/**
+ * ロケール表記（例: ja-JP）を OGP 仕様の形式（例: ja_JP）へ変換する
+ */
+export function toOgLocale(lang: SupportedLocale): string {
+  return lang.replace(/-/g, '_');
+}
 
 /**
  * SEOメタタグを設定するためのユーティリティ関数
@@ -17,47 +42,59 @@ export function useSeoMeta(pageName: string) {
     return router.currentRoute.value.path;
   });
 
+  // 現在の有効ロケールを取得
+  const currentLocale = computed<SupportedLocale>(() => {
+    return isSupportedLocale(locale.value) ? locale.value : DEFAULT_LOCALE;
+  });
+
   // 言語に基づいたタイトル、説明、キーワードを計算
   const title = computed(() => t(`seo.${pageName}.title`));
   const description = computed(() => t(`seo.${pageName}.description`));
   const keywords = computed(() => t(`seo.${pageName}.keywords`));
 
-  // 現在のURL（ハッシュなし）を取得
-  const currentUrl = computed(() => {
-    const baseUrl = window.location.origin;
-    return `${baseUrl}${currentPath.value}`;
-  });
+  // ベースURLを取得
+  const getBaseUrl = () => {
+    return typeof window !== 'undefined' ? window.location.origin : DEFAULT_BASE_URL;
+  };
 
   // hreflangリンクを生成
-  const generateHreflangLinks = () => {
+  const generateHreflangLinks = (baseUrl: string) => {
     return SUPPORTED_LOCALES.map(lang => {
       return {
         rel: 'alternate',
         hreflang: lang.toLowerCase(),
-        href: `${currentUrl.value}?lang=${lang}`
+        href: buildLocalizedUrl(baseUrl, currentPath.value, lang)
       };
     });
   };
 
-  // x-defaultのhreflangリンクを追加
-  const getDefaultHreflangLink = () => {
+  // x-defaultのhreflangリンクを追加（既定言語の正規URL）
+  const getDefaultHreflangLink = (baseUrl: string) => {
     return {
       rel: 'alternate',
       hreflang: 'x-default',
-      href: `${currentUrl.value}?lang=${DEFAULT_LOCALE}`
+      href: buildLocalizedUrl(baseUrl, currentPath.value, DEFAULT_LOCALE)
     };
   };
 
   // メタタグを設定
   useHead(() => {
-    const hreflangLinks = generateHreflangLinks();
-    const defaultHreflangLink = getDefaultHreflangLink();
-    const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://count.it-araiguma.com';
+    const baseUrl = getBaseUrl();
+    const canonicalUrl = buildLocalizedUrl(baseUrl, currentPath.value, currentLocale.value);
+    const hreflangLinks = generateHreflangLinks(baseUrl);
+    const defaultHreflangLink = getDefaultHreflangLink(baseUrl);
     const ogImage = `${baseUrl}/icons/icon-512x512.png`;
+    const alternateOgLocales = SUPPORTED_LOCALES
+      .filter(lang => lang !== currentLocale.value)
+      .map(lang => ({
+        key: `og:locale:alternate:${lang}`,
+        property: 'og:locale:alternate',
+        content: toOgLocale(lang)
+      }));
 
     return {
       htmlAttrs: {
-        lang: locale.value
+        lang: currentLocale.value
       },
       title: title.value,
       meta: [
@@ -79,11 +116,11 @@ export function useSeoMeta(pageName: string) {
         },
         {
           property: 'og:type',
-          content: pageName === 'index' ? 'website' : 'article'
+          content: 'website'
         },
         {
           property: 'og:url',
-          content: currentUrl.value
+          content: canonicalUrl
         },
         {
           property: 'og:image',
@@ -95,8 +132,9 @@ export function useSeoMeta(pageName: string) {
         },
         {
           property: 'og:locale',
-          content: locale.value
+          content: toOgLocale(currentLocale.value)
         },
+        ...alternateOgLocales,
         {
           name: 'twitter:card',
           content: 'summary'
@@ -117,7 +155,7 @@ export function useSeoMeta(pageName: string) {
       link: [
         {
           rel: 'canonical',
-          href: currentUrl.value
+          href: canonicalUrl
         },
         ...hreflangLinks,
         defaultHreflangLink
