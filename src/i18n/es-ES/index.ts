@@ -243,6 +243,10 @@ export default {
       contactLink: 'Formulario de contacto'
     }
   },
+  pwa: {
+    updateAvailable: 'Hay una nueva versión disponible.',
+    reload: 'Actualizar'
+  },
   failed: 'Acción fallida',
   success: 'Acción realizada con éxito'
 };

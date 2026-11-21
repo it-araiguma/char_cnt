@@ -243,6 +243,10 @@ export default {
       contactLink: '咨询表单'
     }
   },
+  pwa: {
+    updateAvailable: '有新版本可用。',
+    reload: '刷新'
+  },
   failed: '操作失败',
   success: '操作成功'
 };
