@@ -12,7 +12,9 @@ export default {
     tools: {
       title: 'Contadores especializados',
       genkoTitle: 'Contador de Genko Yoshi (papel manuscrito)',
-      genkoDesc: 'Calcula hojas de 400 y 200 caracteres con renglones y guía de formato.'
+      genkoDesc: 'Calcula hojas de 400 y 200 caracteres con renglones y guía de formato.',
+      reportTitle: 'Comprobador de longitud de informes y ensayos',
+      reportDesc: 'Verifica el progreso respecto a tu objetivo (±10%, 80%-100%, límite máximo).'
     }
   },
   layout: {
@@ -22,6 +24,7 @@ export default {
     footer: {
       home: 'Inicio',
       genko: 'Contador de Genko Yoshi',
+      report: 'Comprobador de informes',
       privacy: 'Política de privacidad',
       copyright: 'Copyright ',
       allRights: 'Todos los derechos reservados.'
@@ -37,6 +40,11 @@ export default {
       title: 'Contador de Genko Yoshi (papel manuscrito 400/200 caracteres) - Contador de caracteres',
       description: 'Calcula automáticamente el número de hojas y renglones de papel manuscrito japonés (400 y 200 caracteres) teniendo en cuenta saltos de línea.',
       keywords: 'genko yoshi,papel manuscrito japonés,contador de caracteres,número de hojas'
+    },
+    report: {
+      title: 'Comprobador de longitud de informes y ensayos - Contador de caracteres',
+      description: 'Verifica en tiempo real el progreso y cumplimiento de objetivos de caracteres (±10%, 80%-100%, límite máximo).',
+      keywords: 'contador informe,longitud ensayo,objetivo caracteres'
     },
     privacy: {
       title: 'Política de privacidad - Contador de caracteres',
@@ -101,6 +109,90 @@ export default {
       tableRow4: '2.000 car. (5 hojas): Informe universitario / Pauta de concurso (hasta 5 hojas)',
       tableRow5: '4.000 car. (10 hojas): Relato corto / Artículo académico',
       tableRow6: '8.000 car. (20 hojas): Novela corta / Capítulo de tesis'
+    }
+  },
+  report: {
+    title: 'Comprobador de informes y ensayos',
+    subtitle: 'Progreso en tiempo real y verificación de cumplimiento (±10%, 80%-100%, límite máximo)',
+    units: {
+      chars: 'car.'
+    },
+    target: {
+      title: 'Objetivo y configuración',
+      presetFormat: '{count} car.',
+      customLabel: 'Objetivo personalizado',
+      excludeSpaces: 'Excluir espacios y saltos de línea'
+    },
+    rule: {
+      title: 'Regla de cumplimiento',
+      around10: '±10% (Aprox.)',
+      min80: '80%–100% (Mín. 80%)',
+      max100: 'Máx. 100% (Límite)'
+    },
+    status: {
+      ok: 'OK',
+      short: 'Falta',
+      over: 'Exceso',
+      empty: 'Vacío',
+      rangeFormat: 'Rango permitido: {min} - {max} car.',
+      okMessage: 'El texto está dentro del rango permitido.',
+      shortMessage: 'Faltan {diff} caracteres para alcanzar el mínimo.',
+      overMessage: 'Has superado el límite en {diff} caracteres.',
+      emptyMessage: 'Introduce tu texto para comprobar el objetivo.'
+    },
+    input: {
+      placeholder: 'Escribe o pega tu informe o ensayo aquí...',
+      clear: 'Borrar',
+      copy: 'Copiar',
+      copied: 'Copiado al portapapeles',
+      sample: 'Insertar ejemplo'
+    },
+    summary: {
+      totalChars: 'Caracteres totales',
+      noSpaces: 'Sin espacios ni saltos',
+      paragraphs: 'Párrafos',
+      genkoSheets: 'Hojas 400 car. (est.)'
+    },
+    guide: {
+      title: 'Guía de conteo para informes y ensayos',
+      subtitle: 'Qué elementos se incluyen en el conteo y cómo interpretar los límites',
+      criteriaTitle: '¿Qué se debe incluir en el conteo?',
+      criteriaHeaderItem: 'Elemento',
+      criteriaHeaderInclude: '¿Incluido?',
+      criteriaHeaderNote: 'Pauta general',
+      criteriaInclude: 'Generalmente incluido',
+      criteriaExclude: 'Generalmente excluido',
+      criteriaConditional: 'Verificar pautas',
+      criteriaRow1Item: 'Título, nombre e ID de estudiante',
+      criteriaRow1Note: 'Los límites suelen aplicarse solo al cuerpo principal del texto.',
+      criteriaRow2Item: 'Encabezados de sección',
+      criteriaRow2Note: 'Forman parte de la estructura del texto y suelen contarse.',
+      criteriaRow3Item: 'Referencias y bibliografía',
+      criteriaRow3Note: 'Normalmente excluidas, salvo indicación expresa.',
+      criteriaRow4Item: 'Figuras, leyendas y notas',
+      criteriaRow4Note: 'El texto dentro de gráficos se excluye; verifica las leyendas.',
+      criteriaRow5Item: 'Espacios y saltos de línea',
+      criteriaRow5Note: 'Los procesadores suelen excluir espacios; los formularios web los cuentan.',
+      rule1Title: '1. Interpretación de los límites',
+      rule1Body: '・「Aprox. X car.」: Apunta a un ±10% respecto al objetivo.\n・「Al menos X car.」: Supera el objetivo sin excederte demasiado (+10% a +20%).\n・「Máximo X car.」: No superes el límite y procura llegar al menos al 80%.',
+      rule2Title: '2. Diferencia entre procesador y formulario web',
+      rule2Body: '・Usa el interruptor superior para comprobar ambos criterios al instante.',
+      tableTitle: 'Referencias habituales de longitud',
+      tableHeaderChars: 'Objetivo',
+      tableHeaderVolume: 'Volumen estimado',
+      tableHeaderPurpose: 'Uso habitual',
+      tableRow1Chars: '800 car.',
+      tableRow1Volume: '~0,7 pág. A4',
+      tableRow1Purpose: 'Comentario breve, ensayo corto',
+      tableRow2Chars: '1.200 car.',
+      tableRow2Volume: '~1 pág. A4',
+      tableRow2Purpose: 'Ensayo de acceso, informe corto',
+      tableRow3Chars: '2.000 car.',
+      tableRow3Volume: '~1,5–2 págs. A4',
+      tableRow3Purpose: 'Informe universitario',
+      tableRow4Chars: '4.000 car.',
+      tableRow4Volume: '~3–3,5 págs. A4',
+      tableRow4Purpose: 'Trabajo de investigación'
     }
   },
   privacyPolicy: {

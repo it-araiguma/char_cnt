@@ -82,6 +82,22 @@
                 <q-icon name="chevron_right" color="primary" />
               </q-item-section>
             </q-item>
+            <q-item clickable v-ripple to="/report" class="rounded-borders feature-item q-pa-sm q-mt-sm">
+              <q-item-section avatar>
+                <q-avatar color="secondary" text-color="white" icon="assignment" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label class="text-weight-bold text-secondary text-subtitle1">
+                  {{ $t('app.tools.reportTitle') }}
+                </q-item-label>
+                <q-item-label caption class="text-grey-7">
+                  {{ $t('app.tools.reportDesc') }}
+                </q-item-label>
+              </q-item-section>
+              <q-item-section side>
+                <q-icon name="chevron_right" color="secondary" />
+              </q-item-section>
+            </q-item>
           </q-card-section>
         </q-card>
       </div>

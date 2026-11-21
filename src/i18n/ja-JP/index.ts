@@ -12,7 +12,9 @@ export default {
     tools: {
       title: '用途別便利カウンター',
       genkoTitle: '原稿用紙換算カウンター',
-      genkoDesc: '400字・200字詰め原稿用紙の枚数・行数を自動計算。改行を考慮した実枚数とマナー解説付き。'
+      genkoDesc: '400字・200字詰め原稿用紙の枚数・行数を自動計算。改行を考慮した実枚数とマナー解説付き。',
+      reportTitle: 'レポート・小論文文字数チェッカー',
+      reportDesc: '800〜4000字などの目標文字数に対する進捗率と達成判定（±10%・8割〜10割・10割以内）を自動チェック。'
     }
   },
   layout: {
@@ -22,6 +24,7 @@ export default {
     footer: {
       home: 'ホーム',
       genko: '原稿用紙換算',
+      report: 'レポート文字数',
       privacy: 'プライバシーポリシー',
       copyright: 'Copyright ',
       allRights: 'All Rights Reserved.'
@@ -37,6 +40,11 @@ export default {
       title: '原稿用紙換算カウンター（400字・200字）枚数・行数を自動計算 - 文字数カウント',
       description: '入力したテキストが原稿用紙何枚分になるかを瞬時に自動計算。400字詰め（20×20）・200字詰め（20×10）に対応し、文字数割りの目安と改行・空きマスを考慮した正確な枚数を同時に表示します。原稿用紙の書き方ルールも解説。',
       keywords: '原稿用紙 換算,原稿用紙 文字数,400字詰め原稿用紙 何枚,作文 原稿用紙 枚数,文字数カウント'
+    },
+    report: {
+      title: 'レポート・小論文文字数チェッカー（目標文字数・達成判定） - 文字数カウント',
+      description: '大学レポートや小論文の目標文字数（800字・1200字・2000字・4000字・任意指定）に対する進捗率と達成判定（±10%・8割〜10割・10割以内）をリアルタイムで確認できるオンラインツール。タイトルや参考文献を文字数に含めるかの基準も解説。',
+      keywords: 'レポート 文字数 カウント,小論文 文字数 カウント,レポート 文字数 8割,レポート 文字数 基準,文字数カウント'
     },
     privacy: {
       title: 'プライバシーポリシー - 文字数カウント',
@@ -101,6 +109,90 @@ export default {
       tableRow4: '2,000字（5枚）: 大学レポート、読書感想文（高校生規定：5枚以内など）',
       tableRow5: '4,000字（10枚）: 短編小説、学術レポート、本格的小論文',
       tableRow6: '8,000字（20枚）: 中編小説、卒業論文の準備章'
+    }
+  },
+  report: {
+    title: 'レポート・小論文文字数チェッカー',
+    subtitle: '目標文字数に対する進捗率と達成判定（±10%・8割〜10割・10割以内）をリアルタイムに表示',
+    units: {
+      chars: '字'
+    },
+    target: {
+      title: '目標文字数と判定条件',
+      presetFormat: '{count}字',
+      customLabel: '任意の目標文字数',
+      excludeSpaces: '空白・改行を除外して判定'
+    },
+    rule: {
+      title: '課題の文字数指定パターン',
+      around10: '±10%（〇〇字程度）',
+      min80: '8割〜10割（以上・目安）',
+      max100: '10割以内（〇〇字以内）'
+    },
+    status: {
+      ok: 'OK（達成）',
+      short: '不足',
+      over: '超過',
+      empty: '未入力',
+      rangeFormat: '許容範囲: {min} 〜 {max}字',
+      okMessage: '指定の許容範囲内に収まっています。',
+      shortMessage: '許容範囲の下限まであと {diff} 字不足しています。',
+      overMessage: '許容範囲の上限を {diff} 字超過しています。',
+      emptyMessage: 'テキストを入力すると目標文字数に対する達成判定を表示します。'
+    },
+    input: {
+      placeholder: 'ここにレポートや小論文の本文を入力または貼り付けてください...',
+      clear: 'クリア',
+      copy: 'コピー',
+      copied: 'クリップボードにコピーしました',
+      sample: '例文を入力'
+    },
+    summary: {
+      totalChars: '全文字数',
+      noSpaces: '改行・空白なし',
+      paragraphs: '段落数',
+      genkoSheets: '400字換算（枚）'
+    },
+    guide: {
+      title: 'レポート・小論文の文字数ルール解説',
+      subtitle: 'タイトル・参考文献・見出し・図表キャプションの扱いと指定表現別の目安',
+      criteriaTitle: '文字数に含める・含めないの判断基準',
+      criteriaHeaderItem: '対象項目',
+      criteriaHeaderInclude: 'カウント有無',
+      criteriaHeaderNote: '一般的な判断基準・注意点',
+      criteriaInclude: '原則含める',
+      criteriaExclude: '原則含めない',
+      criteriaConditional: '要確認（条件次第）',
+      criteriaRow1Item: 'タイトル・氏名・学籍番号',
+      criteriaRow1Note: '課題の文字数指定は原則「本文のみ」が対象です。表紙やタイトル行は除いてカウントします。',
+      criteriaRow2Item: '見出し（章・節タイトル）',
+      criteriaRow2Note: '「1. はじめに」「2. 考察」などの見出しは本文の構成要素として文字数に含めるのが一般的です。',
+      criteriaRow3Item: '参考文献・引用リスト',
+      criteriaRow3Note: '通常は本文の文字数に含めませんが、学会や講義によっては「参考文献を含む」指定もあるため課題要項を確認してください。',
+      criteriaRow4Item: '図表・キャプション・脚注',
+      criteriaRow4Note: '図表内のテキストは原則含めません。図表タイトル（キャプション）や注釈は指定がなければ除外するのが一般的です。',
+      criteriaRow5Item: 'スペース・改行',
+      criteriaRow5Note: 'Wordの「文字数（スペースを含めない）」を基準とする場合が多いですが、LMS等のWebフォーム提出では改行・スペースも1文字として数えられます。',
+      rule1Title: '1. 「〇〇字程度」「〇〇字以上」「〇〇字以内」の許容範囲',
+      rule1Body: '・「〇〇字程度」: 指定文字数の ±10% が一般的な目安です（例：2,000字程度なら 1,800〜2,200字）。\n・「〇〇字以上」: 指定文字数を必ず超えた上で、上限は +10〜20% 程度に収めると読みやすくなります。\n・「〇〇字以内」: 1文字でも超過すると減点・提出不可になる場合があります。最低でも8割以上（例：2,000字以内なら 1,600〜2,000字）書くと充実した内容になります。',
+      rule2Title: '2. WordとWebフォーム（LMS）のカウント差に注意',
+      rule2Body: '・Microsoft Wordのステータスバーに表示される「文字数」は標準でスペース・改行を含みません。\n・一方、大学のLMS（Moodle、Google Classroom、WebClass等）のテキストボックスに入力する場合は、改行や全角スペースも1文字として制限文字数にカウントされることがあります。\n・本ツールでは上部の「空白・改行を除外して判定」トグルで両方の基準をすぐに確認できます。',
+      tableTitle: 'よく指定されるレポート・小論文の文字数目安',
+      tableHeaderChars: '指定文字数',
+      tableHeaderVolume: '分量の目安',
+      tableHeaderPurpose: '主な用途',
+      tableRow1Chars: '800字',
+      tableRow1Volume: 'A4約0.7枚 / 原稿用紙2枚',
+      tableRow1Purpose: '講義のリアクションペーパー、高校入試小論文',
+      tableRow2Chars: '1,200字',
+      tableRow2Volume: 'A4約1枚 / 原稿用紙3枚',
+      tableRow2Purpose: '大学入試小論文、標準的な小レポート',
+      tableRow3Chars: '2,000字',
+      tableRow3Volume: 'A4約1.5〜2枚 / 原稿用紙5枚',
+      tableRow3Purpose: '大学の期末レポート、ゼミ課題（最も多い形式）',
+      tableRow4Chars: '4,000字',
+      tableRow4Volume: 'A4約3〜3.5枚 / 原稿用紙10枚',
+      tableRow4Purpose: '専門科目の期末論文、研究報告レポート'
     }
   },
   privacyPolicy: {
