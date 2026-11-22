@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "eslint --ext .js,.ts,.vue ./",
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
-    "test": "esbuild src/utils/genkoCount.test.ts --bundle --platform=node --format=esm --outfile=.quasar/genkoCount.test.mjs && node --test .quasar/genkoCount.test.mjs && node --experimental-strip-types --test tests/*.test.ts",
+    "test": "vitest run src/ && node --experimental-strip-types --test tests/*.test.ts",
     "dev": "quasar dev",
     "build": "quasar build",
     "build:pwa": "quasar build -m pwa",
@@ -39,6 +39,7 @@
     "prettier": "^2.5.1",
     "typescript": "^5.9.3",
     "vite-plugin-checker": "^0.10.3",
+    "vitest": "^5.1.1",
     "vue-tsc": "^3.3.14",
     "workbox-build": "^7.1.1",
     "workbox-cacheable-response": "^7.1.0",
