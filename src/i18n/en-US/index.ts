@@ -72,9 +72,9 @@ export default {
     },
     cards: {
       actualTitle: 'Actual Paper Calculation (Linebreaks considered)',
-      actualDesc: 'Based on 20 characters per line. Accurately reflects blank lines and margin breaks.',
+      actualDesc: 'Based on 20 chars/line. Reflects blank lines, margin breaks, and hanging punctuation.',
       charTitle: 'Character Division (Estimate)',
-      charDesc: 'Simple theoretical calculation dividing total characters by sheet grid size (400 or 200).',
+      charDesc: 'Simple theoretical calculation dividing character count (excluding linebreaks) by grid size (400 or 200).',
       sheetsUnit: ' sheets',
       exactBadge: 'Exact',
       remainderFormat: '{full} sheets and {remainder} {unit}',
@@ -83,6 +83,9 @@ export default {
       preset400: '400-char Genko Yoshi (20 chars x 20 lines)',
       preset200: '200-char Genko Yoshi (20 chars x 10 lines)',
       customPreset: 'Custom Grid'
+    },
+    options: {
+      halfWidthTwoPerCell: 'Count 2 half-width alphanumeric characters per square'
     },
     custom: {
       title: 'Customize Paper Grid',

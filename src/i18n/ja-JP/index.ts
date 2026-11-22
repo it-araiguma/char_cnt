@@ -70,9 +70,9 @@ export default {
     },
     cards: {
       actualTitle: '実用紙換算（改行・空きマス考慮）',
-      actualDesc: '1行20字換算。改行による余白や空行を正確に反映した実際の用紙枚数です。',
+      actualDesc: '1行20字換算。改行による余白・空行・行頭禁則（句読点等のぶら下げ）を反映した実際の用紙枚数です。',
       charTitle: '文字数ベース換算（目安）',
-      charDesc: '全文字数をマス目数（400字・200字）で単純に割った理論値です。',
+      charDesc: '改行を除いた文字数をマス目数（400字・200字）で単純に割った理論値です。',
       sheetsUnit: '枚',
       exactBadge: '端数なし',
       remainderFormat: '{full}枚 と {remainder}{unit}',
@@ -81,6 +81,9 @@ export default {
       preset400: '400字詰め原稿用紙（20字×20行）',
       preset200: '200字詰め原稿用紙（20字×10行）',
       customPreset: 'カスタム設定（自由行数・文字数）'
+    },
+    options: {
+      halfWidthTwoPerCell: '半角英数字を1マスに2文字として換算'
     },
     custom: {
       title: '用紙マス目設定のカスタマイズ',
