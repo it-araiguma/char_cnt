@@ -1,13 +1,28 @@
-import { countGraphemes, countGraphemesWithoutSpaces } from './charCount';
+import {
+  countGraphemes,
+  countGraphemesWithoutLinebreaks,
+  countGraphemesWithoutSpaces,
+  splitGraphemes
+} from './charCount';
 
 export const GENKO_MIN_GRID = 1;
 export const GENKO_MAX_GRID = 100;
 export const GENKO_DEFAULT_CHARS_PER_LINE = 20;
 export const GENKO_DEFAULT_LINES_PER_PAGE = 20;
 
+// 行頭禁則文字（行末を超えた場合、前の行の最終マスにぶら下げる）
+const HANGING_PUNCTUATION_REGEX = /^[。、．，」』）］｝】〉》〕”’.,)\]}]+$/u;
+// 半角英数字（1マスに2文字入れる対象）
+const HALF_WIDTH_ALNUM_REGEX = /^[0-9A-Za-z]$/;
+
 export interface GenkoSetting {
   charsPerLine: number; // 1行あたりの文字数（通常20）
   linesPerPage: number; // 1枚あたりの行数（400字なら20、200字なら10）
+}
+
+export interface GenkoCountOptions {
+  /** 半角英数字を1マスに2文字入れるか（既定: true） */
+  halfWidthAsTwoPerCell?: boolean;
 }
 
 /**
@@ -65,6 +80,7 @@ export interface GenkoAnalysisResult {
   // 基本テキスト情報
   totalChars: number;
   charsWithoutSpaces: number;
+  charsWithoutLinebreaks: number;
   totalLines: number; // 実用紙上の総行数
   rawLineCount: number; // 改行で区切られた段落・行数
 
@@ -77,19 +93,75 @@ export interface GenkoAnalysisResult {
 }
 
 /**
+ * 1段落分のテキストが原稿用紙上で消費する行数を計算する。
+ * - 行頭禁則文字（。、」』）など）が行末を超えた場合は前の行の最終マスにぶら下げる。
+ * - halfWidthAsTwoPerCell が true の場合、連続する半角英数字を1マスに2文字入れる。
+ */
+function calculateParagraphLines(
+  paragraph: string,
+  charsPerLine: number,
+  halfWidthAsTwoPerCell: boolean
+): number {
+  const graphemes = splitGraphemes(paragraph);
+  if (graphemes.length === 0) {
+    return 1; // 空行も原稿用紙では1行消費
+  }
+
+  let lineCount = 1;
+  let col = 0;
+
+  for (const grapheme of graphemes) {
+    if (HANGING_PUNCTUATION_REGEX.test(grapheme)) {
+      if (Math.ceil(col) < charsPerLine) {
+        col = Math.ceil(col) + 1;
+      } else if (col > 0) {
+        // 前の文字が行末マスにあるため、同じ行の最終マスにぶら下げる
+        col = charsPerLine;
+      } else {
+        col = 1;
+      }
+      continue;
+    }
+
+    if (halfWidthAsTwoPerCell && HALF_WIDTH_ALNUM_REGEX.test(grapheme)) {
+      if (col + 0.5 > charsPerLine) {
+        lineCount += 1;
+        col = 0.5;
+      } else {
+        col += 0.5;
+      }
+      continue;
+    }
+
+    // 半角英数字1文字の端数（0.5）が残っている場合は次のマスへ進めてから全角1マスを配置する
+    const alignedCol = Math.ceil(col);
+    if (alignedCol + 1 > charsPerLine) {
+      lineCount += 1;
+      col = 1;
+    } else {
+      col = alignedCol + 1;
+    }
+  }
+
+  return lineCount;
+}
+
+/**
  * テキストから原稿用紙上の総行数を算出する。
- * 改行で分割し、各段落の文字数に応じた行数（ceil(文字数 / charsPerLine)）を合算。
+ * 改行で分割し、各段落の行数（行頭禁則のぶら下げ・半角英数字2文字詰めを考慮）を合算。
  * 空行は1行としてカウント。末尾の単一改行による空文字は無視。
  */
 export function calculateGenkoLines(
   text: string,
-  charsPerLine = GENKO_DEFAULT_CHARS_PER_LINE
+  charsPerLine = GENKO_DEFAULT_CHARS_PER_LINE,
+  options: GenkoCountOptions = {}
 ): { totalLines: number; rawLineCount: number } {
   if (!text) {
     return { totalLines: 0, rawLineCount: 0 };
   }
 
   const safeCharsPerLine = sanitizeGenkoGridValue(charsPerLine, GENKO_DEFAULT_CHARS_PER_LINE);
+  const halfWidthAsTwoPerCell = options.halfWidthAsTwoPerCell ?? true;
 
   let lines = text.split(/\r?\n/);
 
@@ -100,12 +172,7 @@ export function calculateGenkoLines(
 
   let totalLines = 0;
   for (const line of lines) {
-    const chars = countGraphemes(line);
-    if (chars === 0) {
-      totalLines += 1; // 空行も原稿用紙では1行消費
-    } else {
-      totalLines += Math.ceil(chars / safeCharsPerLine);
-    }
+    totalLines += calculateParagraphLines(line, safeCharsPerLine, halfWidthAsTwoPerCell);
   }
 
   return {
@@ -171,21 +238,23 @@ export function analyzeGenko(
   customSetting: GenkoSetting = {
     charsPerLine: GENKO_DEFAULT_CHARS_PER_LINE,
     linesPerPage: GENKO_DEFAULT_LINES_PER_PAGE
-  }
+  },
+  options: GenkoCountOptions = {}
 ): GenkoAnalysisResult {
   const safeCustomSetting = sanitizeGenkoSetting(customSetting);
   const totalChars = countGraphemes(text);
   const charsWithoutSpaces = countGraphemesWithoutSpaces(text);
+  const charsWithoutLinebreaks = countGraphemesWithoutLinebreaks(text);
 
   // 400字詰め（20字×20行）
-  const lines20 = calculateGenkoLines(text, 20);
-  const genko400 = calculateGenkoMetric(totalChars, lines20.totalLines, {
+  const lines20 = calculateGenkoLines(text, 20, options);
+  const genko400 = calculateGenkoMetric(charsWithoutLinebreaks, lines20.totalLines, {
     charsPerLine: 20,
     linesPerPage: 20
   });
 
   // 200字詰め（20字×10行）
-  const genko200 = calculateGenkoMetric(totalChars, lines20.totalLines, {
+  const genko200 = calculateGenkoMetric(charsWithoutLinebreaks, lines20.totalLines, {
     charsPerLine: 20,
     linesPerPage: 10
   });
@@ -194,9 +263,9 @@ export function analyzeGenko(
   const customLines =
     safeCustomSetting.charsPerLine === 20
       ? lines20
-      : calculateGenkoLines(text, safeCustomSetting.charsPerLine);
+      : calculateGenkoLines(text, safeCustomSetting.charsPerLine, options);
   const custom = calculateGenkoMetric(
-    totalChars,
+    charsWithoutLinebreaks,
     customLines.totalLines,
     safeCustomSetting
   );
@@ -204,6 +273,7 @@ export function analyzeGenko(
   return {
     totalChars,
     charsWithoutSpaces,
+    charsWithoutLinebreaks,
     totalLines: lines20.totalLines,
     rawLineCount: lines20.rawLineCount,
     genko400,

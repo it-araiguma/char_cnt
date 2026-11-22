@@ -70,9 +70,9 @@ export default {
     },
     cards: {
       actualTitle: 'Cálculo real en papel (con saltos de línea)',
-      actualDesc: 'Basado en 20 caracteres por línea, reflejando fielmente espacios en blanco y párrafos.',
+      actualDesc: 'Basado en 20 caracteres por línea, reflejando saltos, espacios y puntuación colgante.',
       charTitle: 'Cálculo por división de caracteres (estimación)',
-      charDesc: 'División simple de caracteres totales entre cuadrícula (400 o 200).',
+      charDesc: 'División simple de caracteres (sin saltos de línea) entre la cuadrícula (400 o 200).',
       sheetsUnit: ' hojas',
       exactBadge: 'Exacto',
       remainderFormat: '{full} hojas y {remainder} {unit}',
@@ -81,6 +81,9 @@ export default {
       preset400: 'Genko Yoshi de 400 caracteres (20 car. x 20 líneas)',
       preset200: 'Genko Yoshi de 200 caracteres (20 car. x 10 líneas)',
       customPreset: 'Cuadrícula personalizada'
+    },
+    options: {
+      halfWidthTwoPerCell: 'Contar 2 caracteres alfanuméricos de ancho medio por casilla'
     },
     custom: {
       title: 'Personalizar cuadrícula',

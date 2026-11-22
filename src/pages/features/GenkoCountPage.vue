@@ -66,7 +66,7 @@
         </q-card>
 
         <!-- 基本文字数・行数サマリ -->
-        <div class="row q-col-gutter-sm q-mb-md">
+        <div class="row q-col-gutter-sm q-mb-sm">
           <div class="col-6 col-sm-3">
             <q-card class="summary-mini-card">
               <q-card-section class="q-pa-sm text-center">
@@ -99,6 +99,16 @@
               </q-card-section>
             </q-card>
           </div>
+        </div>
+
+        <!-- 計算オプション -->
+        <div class="row items-center justify-end q-mb-md">
+          <q-toggle
+            v-model="halfWidthAsTwoPerCell"
+            color="primary"
+            dense
+            :label="$t('genko.options.halfWidthTwoPerCell')"
+          />
         </div>
 
         <!-- 400字詰め原稿用紙換算カード -->
@@ -514,6 +524,7 @@ const route = useRoute();
 const $q = useQuasar();
 
 const text = ref('');
+const halfWidthAsTwoPerCell = ref(true);
 
 const customInput = reactive<{ charsPerLine: number | string; linesPerPage: number | string }>({
   charsPerLine: GENKO_DEFAULT_CHARS_PER_LINE,
@@ -563,7 +574,9 @@ const resetCustomSetting = () => {
 
 // 計算結果
 const analysis = computed(() => {
-  return analyzeGenko(text.value, customSetting);
+  return analyzeGenko(text.value, customSetting, {
+    halfWidthAsTwoPerCell: halfWidthAsTwoPerCell.value
+  });
 });
 
 const clearText = () => {
