@@ -3,11 +3,31 @@ export default {
     title: 'テキストカウンター',
     input: {
       placeholder: 'ここにテキストを入力してください...',
-      clear: 'クリア'
+      clear: 'クリア',
+      copy: 'コピー',
+      copied: 'クリップボードにコピーしました'
     },
     counter: {
       characters: '文字数',
-      noSpaces: '改行・スペースなし'
+      charactersHint: 'スペースや改行を含めた、見た目の文字数（サロゲートペア・絵文字も1文字としてカウント）',
+      noLineBreaks: '改行なし（スペース含む）',
+      noLineBreaksHint: '改行だけを除き、半角・全角スペースを含めた文字数',
+      noSpaces: '改行・スペースなし',
+      noSpacesHint: '改行・半角スペース・全角スペース・タブを除いた実質文字数',
+      linesWithEmpty: '行数（空行含む）',
+      linesWithEmptyHint: '改行で区切られたすべての行数（空行を含む）',
+      linesWithoutEmpty: '行数（空行除く）',
+      linesWithoutEmptyHint: '空白のみの行・空行を除いた実質的な行数',
+      paragraphs: '段落数',
+      paragraphsHint: '空行（連続改行）で区切られた段落の数',
+      fullWidth: '全角文字',
+      fullWidthHint: 'ひらがな・カタカナ・漢字・全角記号・絵文字などの文字数（改行除く）',
+      halfWidth: '半角文字',
+      halfWidthHint: '半角英数字・半角記号・半角スペース・半角カタカナの文字数（改行除く）',
+      utf8Bytes: 'バイト数 (UTF-8)',
+      utf8BytesHint: 'UTF-8 エンコード時の正確なバイト数（改行含む）',
+      shiftJisBytes: 'バイト数 (Shift_JIS)',
+      shiftJisBytesHint: '半角1バイト・全角2バイトとして計算した Shift_JIS 概算バイト数'
     },
     tools: {
       title: '用途別便利カウンター',

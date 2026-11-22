@@ -3,11 +3,31 @@ export default {
     title: 'Compteur de texte',
     input: {
       placeholder: 'Entrez votre texte ici...',
-      clear: 'Effacer'
+      clear: 'Effacer',
+      copy: 'Copier',
+      copied: 'Copié dans le presse-papiers'
     },
     counter: {
       characters: 'Caractères',
-      noSpaces: 'Sans espaces et retours à la ligne'
+      charactersHint: 'Nombre visuel de caractères incluant espaces et retours à la ligne (emojis = 1)',
+      noLineBreaks: 'Sans retours (avec espaces)',
+      noLineBreaksHint: 'Caractères sans retours à la ligne mais en conservant les espaces',
+      noSpaces: 'Sans espaces et retours à la ligne',
+      noSpacesHint: 'Caractères hors espaces, tabulations et retours à la ligne',
+      linesWithEmpty: 'Lignes (avec vides)',
+      linesWithEmptyHint: 'Nombre total de lignes séparées par des retours, lignes vides incluses',
+      linesWithoutEmpty: 'Lignes (hors vides)',
+      linesWithoutEmptyHint: 'Nombre de lignes non vides',
+      paragraphs: 'Paragraphes',
+      paragraphsHint: 'Nombre de paragraphes séparés par des lignes vides',
+      fullWidth: 'Pleine chasse',
+      fullWidthHint: 'Caractères pleine chasse (CJK, symboles, emojis) hors retours',
+      halfWidth: 'Demi-chasse',
+      halfWidthHint: 'Caractères ASCII, espaces et katakana demi-chasse hors retours',
+      utf8Bytes: 'Octets (UTF-8)',
+      utf8BytesHint: 'Taille exacte en octets en encodage UTF-8',
+      shiftJisBytes: 'Octets (Shift_JIS)',
+      shiftJisBytesHint: 'Taille estimée en Shift_JIS (1 octet demi-chasse, 2 octets pleine chasse)'
     },
     tools: {
       title: 'Compteurs spécialisés',
