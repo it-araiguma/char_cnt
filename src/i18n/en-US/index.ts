@@ -5,11 +5,31 @@ export default {
     title: 'Text Counter',
     input: {
       placeholder: 'Enter your text here...',
-      clear: 'Clear'
+      clear: 'Clear',
+      copy: 'Copy',
+      copied: 'Copied to clipboard'
     },
     counter: {
       characters: 'Characters',
-      noSpaces: 'No Spaces & Linebreaks'
+      charactersHint: 'Visual character count including spaces and line breaks (treats emojis & surrogate pairs as 1)',
+      noLineBreaks: 'No Linebreaks (with Spaces)',
+      noLineBreaksHint: 'Character count excluding line breaks while keeping spaces',
+      noSpaces: 'No Spaces & Linebreaks',
+      noSpacesHint: 'Character count excluding all spaces, tabs, and line breaks',
+      linesWithEmpty: 'Lines (incl. blank)',
+      linesWithEmptyHint: 'Total number of lines separated by line breaks, including blank lines',
+      linesWithoutEmpty: 'Lines (excl. blank)',
+      linesWithoutEmptyHint: 'Number of non-empty lines excluding blank or whitespace-only lines',
+      paragraphs: 'Paragraphs',
+      paragraphsHint: 'Number of paragraphs separated by one or more blank lines',
+      fullWidth: 'Full-width',
+      fullWidthHint: 'Full-width characters such as CJK, full-width symbols, and emojis (excl. line breaks)',
+      halfWidth: 'Half-width',
+      halfWidthHint: 'Half-width ASCII, spaces, and half-width katakana characters (excl. line breaks)',
+      utf8Bytes: 'Bytes (UTF-8)',
+      utf8BytesHint: 'Exact byte length in UTF-8 encoding including line breaks',
+      shiftJisBytes: 'Bytes (Shift_JIS)',
+      shiftJisBytesHint: 'Estimated Shift_JIS byte length (1 byte for half-width, 2 bytes for full-width)'
     },
     tools: {
       title: 'Specialized Counters',

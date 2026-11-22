@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "eslint --ext .js,.ts,.vue ./",
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
-    "test": "esbuild src/utils/genkoCount.test.ts --bundle --platform=node --format=esm --outfile=.quasar/genkoCount.test.mjs && node --test .quasar/genkoCount.test.mjs",
+    "test": "esbuild src/utils/genkoCount.test.ts --bundle --platform=node --format=esm --outfile=.quasar/genkoCount.test.mjs && node --test .quasar/genkoCount.test.mjs && node --experimental-strip-types --test tests/*.test.ts",
     "dev": "quasar dev",
     "build": "quasar build",
     "build:pwa": "quasar build -m pwa",

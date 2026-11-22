@@ -3,11 +3,31 @@ export default {
     title: 'Contador de texto',
     input: {
       placeholder: 'Introduce tu texto aquí...',
-      clear: 'Borrar'
+      clear: 'Borrar',
+      copy: 'Copiar',
+      copied: 'Copiado al portapapeles'
     },
     counter: {
       characters: 'Caracteres',
-      noSpaces: 'Sin espacios ni saltos de línea'
+      charactersHint: 'Número visual de caracteres incluidos espacios y saltos de línea (emojis cuentan como 1)',
+      noLineBreaks: 'Sin saltos (con espacios)',
+      noLineBreaksHint: 'Caracteres excluyendo saltos de línea pero conservando los espacios',
+      noSpaces: 'Sin espacios ni saltos de línea',
+      noSpacesHint: 'Caracteres excluyendo espacios, tabulaciones y saltos de línea',
+      linesWithEmpty: 'Líneas (con vacías)',
+      linesWithEmptyHint: 'Número total de líneas separadas por saltos, incluidas líneas vacías',
+      linesWithoutEmpty: 'Líneas (sin vacías)',
+      linesWithoutEmptyHint: 'Número de líneas con contenido excluyendo líneas vacías',
+      paragraphs: 'Párrafos',
+      paragraphsHint: 'Número de párrafos separados por líneas en blanco',
+      fullWidth: 'Ancho completo',
+      fullWidthHint: 'Caracteres de ancho completo como CJK, símbolos y emojis (sin saltos)',
+      halfWidth: 'Medio ancho',
+      halfWidthHint: 'Caracteres ASCII, espacios y katakana de medio ancho (sin saltos)',
+      utf8Bytes: 'Bytes (UTF-8)',
+      utf8BytesHint: 'Longitud exacta en bytes en codificación UTF-8',
+      shiftJisBytes: 'Bytes (Shift_JIS)',
+      shiftJisBytesHint: 'Longitud estimada en Shift_JIS (1 byte medio ancho, 2 bytes ancho completo)'
     },
     tools: {
       title: 'Contadores especializados',
