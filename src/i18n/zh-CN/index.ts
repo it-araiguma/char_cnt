@@ -3,11 +3,31 @@ export default {
     title: '文本计数器',
     input: {
       placeholder: '在此处输入您的文本...',
-      clear: '清除'
+      clear: '清除',
+      copy: '复制',
+      copied: '已复制到剪贴板'
     },
     counter: {
       characters: '字符数',
-      noSpaces: '无空格和换行'
+      charactersHint: '包含空格和换行的视觉字符数（表情符号和代理对均计为1个字符）',
+      noLineBreaks: '无换行（含空格）',
+      noLineBreaksHint: '仅去除换行符，保留半角和全角空格的字符数',
+      noSpaces: '无空格和换行',
+      noSpacesHint: '去除所有空格、制表符和换行符后的实际字符数',
+      linesWithEmpty: '行数（含空行）',
+      linesWithEmptyHint: '按换行符分隔的总行数（包含空行）',
+      linesWithoutEmpty: '行数（不含空行）',
+      linesWithoutEmptyHint: '去除空行及纯空白行后的有效行数',
+      paragraphs: '段落数',
+      paragraphsHint: '以空行（连续换行）分隔的段落数量',
+      fullWidth: '全角字符',
+      fullWidthHint: '中日韩文字、全角符号和表情符号等全角字符数（不含换行）',
+      halfWidth: '半角字符',
+      halfWidthHint: '半角ASCII字符、半角空格和半角片假名字符数（不含换行）',
+      utf8Bytes: '字节数 (UTF-8)',
+      utf8BytesHint: 'UTF-8 编码下的精确字节数（包含换行）',
+      shiftJisBytes: '字节数 (Shift_JIS)',
+      shiftJisBytesHint: '按半角1字节、全角2字节估算的 Shift_JIS 字节数'
     },
     tools: {
       title: '特定用途计数器',
