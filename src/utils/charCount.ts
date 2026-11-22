@@ -19,9 +19,11 @@ export interface TextMetrics {
 }
 
 /**
- * テキストを書記素クラスタ（見た目の1文字）の配列へ分割する。
+ * テキストを書記素クラスタ（見た目の1文字）の配列に分割する。
+ * サロゲートペア（𠮷、😀 等）・ZWJ 結合絵文字（👨‍👩‍👧‍👦 等）・結合文字も1要素として扱う。
+ * Intl.Segmenter 未対応環境ではコードポイント単位（[...text]）にフォールバックする。
  */
-function segmentGraphemes(text: string): string[] {
+export function splitGraphemes(text: string): string[] {
   if (!text) {
     return [];
   }
@@ -39,20 +41,22 @@ function segmentGraphemes(text: string): string[] {
  * Intl.Segmenter 未対応環境ではコードポイント単位（[...text]）にフォールバックする。
  */
 export function countGraphemes(text: string): number {
-  return segmentGraphemes(text).length;
+  return splitGraphemes(text).length;
 }
 
 /**
- * 改行文字（CRLF / CR / LF）のみを除いた書記素単位の文字数をカウントする。
- * 半角スペース・全角スペース・タブはカウントに含める。
+ * 改行文字（CR・LF）を除いた書記素単位の文字数をカウントする。
+ * 全角・半角スペースは1文字として残す。
  */
-export function countGraphemesWithoutLineBreaks(text: string): number {
+export function countGraphemesWithoutLinebreaks(text: string): number {
   if (!text) {
     return 0;
   }
 
-  return countGraphemes(text.replace(/\r\n|\r|\n/g, ''));
+  return countGraphemes(text.replace(/[\r\n]+/g, ''));
 }
+
+export const countGraphemesWithoutLineBreaks = countGraphemesWithoutLinebreaks;
 
 /**
  * 空白・改行（半角スペース・全角スペース・タブ・改行等）を除いた書記素単位の文字数をカウントする。
@@ -163,8 +167,8 @@ export function analyzeText(text: string): TextMetrics {
   }
 
   const totalChars = countGraphemes(text);
-  const withoutLineBreaksText = text.replace(/\r\n|\r|\n/g, '');
-  const withoutLineBreaksGraphemes = segmentGraphemes(withoutLineBreaksText);
+  const withoutLineBreaksText = text.replace(/[\r\n]+/g, '');
+  const withoutLineBreaksGraphemes = splitGraphemes(withoutLineBreaksText);
   const charsWithoutLineBreaks = withoutLineBreaksGraphemes.length;
   const charsWithoutSpaces = countGraphemesWithoutSpaces(text);
 

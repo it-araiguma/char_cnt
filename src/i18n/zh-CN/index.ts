@@ -90,9 +90,9 @@ export default {
     },
     cards: {
       actualTitle: '实际纸张换算（考虑换行与空白）',
-      actualDesc: '按每行20字计算，准确反映段落换行与空行占用的纸张数。',
+      actualDesc: '按每行20字计算，准确反映段落换行、空行及行头禁则（标点悬挂）后的实际用纸页数。',
       charTitle: '纯字数换算（估算）',
-      charDesc: '以总字数除以单页格子数（400字/200字）得出的理论估算值。',
+      charDesc: '以不含换行符的字符数除以单页格子数（400字/200字）得出的理论估算值。',
       sheetsUnit: '页',
       exactBadge: '整页无余',
       remainderFormat: '{full}页 又 {remainder}{unit}',
@@ -101,6 +101,9 @@ export default {
       preset400: '400字原稿纸（20字×20行）',
       preset200: '200字原稿纸（20字×10行）',
       customPreset: '自定义网格设置'
+    },
+    options: {
+      halfWidthTwoPerCell: '半角英数字按每格2字符换算'
     },
     custom: {
       title: '自定义原稿纸规格',

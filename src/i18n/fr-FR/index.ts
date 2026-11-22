@@ -90,9 +90,9 @@ export default {
     },
     cards: {
       actualTitle: 'Calcul réel (retours à la ligne inclus)',
-      actualDesc: 'Sur la base de 20 caractères par ligne, reflétant fidèlement les blancs et paragraphes.',
+      actualDesc: 'Sur la base de 20 caractères par ligne, incluant blancs, paragraphes et ponctuation suspendue.',
       charTitle: 'Calcul par division de caractères (estimation)',
-      charDesc: 'Division pure du nombre total de caractères par la taille de la grille (400 ou 200).',
+      charDesc: 'Division simple du nombre de caractères (hors retours à la ligne) par la grille (400 ou 200).',
       sheetsUnit: ' feuilles',
       exactBadge: 'Sans reste',
       remainderFormat: '{full} feuilles et {remainder} {unit}',
@@ -101,6 +101,9 @@ export default {
       preset400: 'Genko Yoshi 400 caractères (20 car. x 20 lignes)',
       preset200: 'Genko Yoshi 200 caractères (20 car. x 10 lignes)',
       customPreset: 'Grille personnalisée'
+    },
+    options: {
+      halfWidthTwoPerCell: 'Compter 2 caractères alphanumériques demi-chasse par case'
     },
     custom: {
       title: 'Personnaliser la grille',
